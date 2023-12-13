@@ -1,0 +1,99 @@
+.login {
+    text-align: center;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+}
+
+.login-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: -2vh;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-header > .title > h1 {
+    font-size: 28vh;
+    padding: 0 1vh;
+    font-weight: 350;
+    margin: 0;
+}
+
+.login-header > .title > p {
+    width: 100%;
+    max-width: 50vw;
+    font-size: 1.6rem;
+    margin-top: 0;
+}
+
+.login-header > .App-logo {
+    height: 40vh;
+    pointer-events: none;
+}
+
+.login > a {
+    text-decoration: none;
+    font-weight: bold;
+    padding: 2vh;
+    margin-top: 2vh;
+    color: #083464;
+    border: solid #083464;
+    box-shadow: inset 0 0 0 0 #083464;
+    transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+}
+
+.login > a:hover {
+    box-shadow: inset 0 0 0 400px #083464;
+    color: white;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+      animation: App-logo-float infinite 80s linear;
+      transform-origin: center center;
+    }
+}
+
+  @keyframes App-logo-float {
+    0% {
+      transform: rotate(0);
+    }
+    50% {
+      transform: rotate(180deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .login-header {
+        flex-direction: column;
+    }
+
+    .login-header > .App-logo {
+        height: 30vh;
+    }
+
+    .login-header > h1 {
+        font-size: 150px;
+        margin-top: -25vh;
+    }
+
+    .login > p {
+        margin: -2vh 0;
+    }
+
+    .login > a {
+        margin: 5vh;
+    }
+}
