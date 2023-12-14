@@ -1,4 +1,7 @@
 import { clientId } from "../secret";
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { selectAccessToken } from "./spotifySlice";
 
 // https://developer.spotify.com/documentation/web-playback-sdk/quick-start/#
 export const authEndpoint = "https://accounts.spotify.com/authroize";
@@ -17,21 +20,10 @@ const scopes = [
 ];
 let accessToken;
 
-export const getTokenFromResponse = () => {
-    return window.location.hash
-        .substring(1)
-        .split("&")
-        .reduce((initial, item) => {
-            var parts = item.split("=");
-            initial[parts[0]] = decodeURIComponent(parts[1]);
-            return initial;
-        })
-}
-
 const Spotify = {
-    getAccessToken() {
-        if (accessToken) {
-            return accessToken;
+    getAccessToken(access) {
+        if (access) {
+            return access;
         }
         const accessTokenMatch = window.location.href.match(/access_token=([^&]*)/);
         const expiresInMatch = window.location.href.match(/expires_in=([^&]*)/);

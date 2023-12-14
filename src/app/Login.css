@@ -10,7 +10,7 @@
     align-items: center;
     justify-content: center;
     font-size: calc(10px + 2vmin);
-    background: rgb(12, 12, 28);
+    background: linear-gradient(#083464, black);
 }
 
 .login-header {
@@ -56,6 +56,7 @@
     margin-top: 5vh;
     color: rgb(190, 190, 190);
     border: solid #083464;
+    border-radius: 40px;
     box-shadow: inset 0 0 0 0 #083464;
     transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
 }
