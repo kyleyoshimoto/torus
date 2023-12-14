@@ -14,15 +14,15 @@ function Sidebar() {
             </div>
             <div className='sidebar-links'>
                 <div className='home-link link'>
-                    <HomeIcon className='icon'/>
+                    <HomeIcon className='icon' fontSize='large'/>
                     <p>Home</p>
                 </div>
                 <div className='search-link link'>
-                    <SearchIcon className='icon'/>
+                    <SearchIcon className='icon' fontSize='large'/>
                     <p>Search</p>
                 </div>
                 <div className='playlists-link link'>
-                    <LibraryMusicIcon className='icon'/>
+                    <LibraryMusicIcon className='icon' fontSize='large'/>
                     <p>Playlists</p>
                 </div>
             </div>

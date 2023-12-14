@@ -1,6 +1,6 @@
 .sidebar {
     position: absolute;
-    width: 25vw;
+    width: 26vw;
     min-width: 10vw;
     resize: horizontal;
     overflow: hidden;
@@ -14,6 +14,7 @@
     align-items: center;
     justify-content: flex-start;
     width: 100%;
+    margin-top: 0.5rem;
 }
 
 .sidebar-header > img {
@@ -26,6 +27,10 @@
     margin: 0 0.2rem;
 }
 
+.sidebar-links {
+    margin-top: 2rem;
+}
+
 .link {
     display: flex;
     align-items: center;
@@ -33,10 +38,10 @@
 }
 
 .link > p {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
+    margin: 10px;
 }
 
-.link > .icon,
-.link > p {
-    margin: 1rem 4px;
+.link > .icon {
+    margin-left: 10px;
 }
