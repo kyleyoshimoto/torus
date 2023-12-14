@@ -1,7 +1,4 @@
 import { clientId } from "../secret";
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { selectAccessToken } from "./spotifySlice";
 
 // https://developer.spotify.com/documentation/web-playback-sdk/quick-start/#
 export const authEndpoint = "https://accounts.spotify.com/authroize";

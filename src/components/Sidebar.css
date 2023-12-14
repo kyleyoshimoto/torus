@@ -1,3 +1,42 @@
 .sidebar {
+    position: absolute;
+    width: 25vw;
+    min-width: 10vw;
+    resize: horizontal;
+    overflow: hidden;
+    min-height: 100vh;
     background: black;
+}
+
+.sidebar-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.sidebar-header > img {
+    width: 10vw;
+    transform: rotate(60deg);
+}
+
+.sidebar-header > h1 {
+    font-size: 4.8rem;
+    margin: 0 0.2rem;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.link > p {
+    font-size: 1.4rem;
+}
+
+.link > .icon,
+.link > p {
+    margin: 1rem 4px;
 }
