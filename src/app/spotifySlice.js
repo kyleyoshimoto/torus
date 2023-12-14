@@ -3,11 +3,17 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 export const spotifySlice = createSlice({
     name: 'spotify',
     initialState: {
-        accessKey: ""
+        accessToken: ""
     },
     reducers: {
-        addAccessKey: (state, action) => {
-            state.accessKey = action.payload
+        addAccessToken: (state, action) => {
+            state.accessToken = action.payload
         }
     }
 });
+
+export const { addAccessToken } = spotifySlice.actions;
+
+export const selectAccessToken = (state) => state.spotify.accessToken;
+
+export default spotifySlice.reducer;

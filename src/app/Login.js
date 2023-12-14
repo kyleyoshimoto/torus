@@ -1,11 +1,15 @@
 import React, { useCallback } from 'react';
-import Spotify, { accessUrl } from './spotify';
+import { useDispatch } from 'react-redux';
+import Spotify from './spotify';
 import logo from '../logo.svg';
 import './Login.css';
+import { addAccessToken } from './spotifySlice';
 
 function Login() {
+    const dispatch = useDispatch();
+
     const handleLogin = useCallback(() => {
-        return Spotify.getAccessToken()
+        dispatch(addAccessToken(Spotify.getAccessToken()));
     }, []);
 
     return (

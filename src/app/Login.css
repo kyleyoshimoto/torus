@@ -24,6 +24,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 1;
 }
 
 .login-header > .title > h1 {
@@ -53,7 +54,7 @@
     font-weight: bold;
     padding: 2vh;
     margin-top: 5vh;
-    color: #083464;
+    color: rgb(190, 190, 190);
     border: solid #083464;
     box-shadow: inset 0 0 0 0 #083464;
     transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
