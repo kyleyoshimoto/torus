@@ -5,6 +5,7 @@ import logo from '../logos/logoWhite.svg';
 import './Sidebar.css';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
+import PersonIcon from '@mui/icons-material/Person';
 import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
@@ -32,6 +33,10 @@ function Sidebar() {
                 <div className='search-link link'>
                     <SearchIcon className='icon' fontSize='large'/>
                     <NavLink to="/Search" className='navlink'>Search</NavLink>
+                </div>
+                <div className='user-link link'>
+                    <PersonIcon className='icon' fontSize='large' />
+                    <NavLink to="/Profile" className='navlink'>Profile</NavLink>
                 </div>
                 <div className='playlists-link link'>
                     <LibraryMusicIcon className='icon' fontSize='large'/>

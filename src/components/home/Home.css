@@ -2,3 +2,36 @@
     min-height: 110vh;
     background: none;
 }
+
+.background-logo {
+    z-index: 0;
+    position: absolute;
+    height: 150vh;
+    left: 20vw;
+    top: 5vw;
+    overflow: none;
+}
+
+.header {
+    z-index: 1;
+    position: absolute;
+    border: 1px solid red;
+    height: 51vh;
+    width: 80vw;
+    right: 0;
+}
+
+.header > .top {
+    border: solid red 1px;
+    width: 15vw;
+    height: 15vw;
+}
+
+
+
+@media (prefers-reduced-motion: no-preference) {
+    .background-logo {
+        animation: App-logo-float infinite 240s linear;
+        transform-origin: center;
+    }
+}

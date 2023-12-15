@@ -1,20 +1,24 @@
 import React, { useCallback } from 'react';
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
-import Root from './components/Root';
-import Search from './components/search/Search';
 import { useDispatch } from 'react-redux';
 import { selectAccessToken, addAccessToken } from './app/spotifySlice';
-import Spotify from './app/spotify';
-import Login from './app/Login';
-import Sidebar from './components/Sidebar';
-import Home from './components/home/Home';
-import './App.css';
 import { useSelector } from 'react-redux';
+
+import Login from './app/Login';
+import Root from './components/Root';
+import Home from './components/home/Home';
+import Search from './components/search/Search';
+import Profile from './components/profile/Profile';
+
+import Spotify from './app/spotify';
+
+import './App.css';
 
 const appRouter = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={ <Root />}>
     <Route index element={ <Home /> } />
     <Route path="/Search" element={ <Search /> } />
+    <Route path="/Profile" element={ <Profile /> } />
   </Route>
 ));
 
