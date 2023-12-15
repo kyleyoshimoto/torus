@@ -1,0 +1,10 @@
+.make-playlist {
+    border: solid red 1px;
+    position: absolute;
+    top: 9.5vh;
+    right: 1rem;
+    width: 39.5vw;
+    background: black;
+    border-radius: 10px;
+    height: 88.9vh;
+}

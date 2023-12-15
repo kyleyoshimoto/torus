@@ -1,11 +1,22 @@
 import React, { useCallback } from 'react';
+import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
+import Root from './components/Root';
+import Search from './components/search/Search';
 import { useDispatch } from 'react-redux';
 import { selectAccessToken, addAccessToken } from './app/spotifySlice';
 import Spotify from './app/spotify';
 import Login from './app/Login';
+import Sidebar from './components/Sidebar';
 import Home from './components/Home';
 import './App.css';
 import { useSelector } from 'react-redux';
+
+const appRouter = createBrowserRouter(createRoutesFromElements(
+  <Route path="/" element={ <Root />}>
+    <Route index element={ <Home /> } />
+    <Route path="/Search" element={ <Search /> } />
+  </Route>
+));
 
 function App() {
   const dispatch = useDispatch();
@@ -23,7 +34,7 @@ function App() {
 
   return (
     <div>
-      {!token ? <Login handleLogin={handleLogin} /> : <Home />}
+      {!token ? <Login handleLogin={handleLogin} /> : <RouterProvider router={appRouter}/>}
     </div>
   );
 }

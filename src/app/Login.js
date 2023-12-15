@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '../logoMaroon.svg';
+import logo from '../logos/logoMaroon.svg';
 import './Login.css';
 
 function Login(props) {
