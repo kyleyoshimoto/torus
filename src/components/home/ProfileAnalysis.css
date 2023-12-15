@@ -1,0 +1,9 @@
+.profile-analysis {
+    position: absolute;
+    top: 30vh;
+    right: 1vw;
+    height: 59vh;
+    width: 42.5vw;
+    background: black;
+    border-radius: 10px;
+}

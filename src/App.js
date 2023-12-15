@@ -7,7 +7,7 @@ import { selectAccessToken, addAccessToken } from './app/spotifySlice';
 import Spotify from './app/spotify';
 import Login from './app/Login';
 import Sidebar from './components/Sidebar';
-import Home from './components/Home';
+import Home from './components/home/Home';
 import './App.css';
 import { useSelector } from 'react-redux';
 

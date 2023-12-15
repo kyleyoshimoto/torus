@@ -1,0 +1,9 @@
+.top-songs {
+    position: absolute;
+    background: black;
+    left: 20.8vw;
+    top: 30vh;
+    height: 59vh;
+    width: 35vw;
+    border-radius: 10px;
+}

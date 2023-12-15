@@ -1,4 +1,5 @@
 import React from 'react';
+import Player from './home/Player';
 import { NavLink } from 'react-router-dom';
 import logo from '../logos/logoWhite.svg';
 import './Sidebar.css';
@@ -38,6 +39,7 @@ function Sidebar() {
                 </div>
             </div>
             <hr />
+            <Player />
         </div>
     )
 }
