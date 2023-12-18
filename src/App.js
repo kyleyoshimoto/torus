@@ -9,7 +9,7 @@ import Root from './components/Root';
 import Home from './components/home/Home';
 import Search from './components/search/Search';
 import Profile from './components/profile/Profile';
-import Playlists from './components/playlists/Playlists';
+import Playlists from './components/Playlists/Playlists';
 
 import Spotify from './app/spotify';
 
