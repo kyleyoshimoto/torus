@@ -10,6 +10,9 @@ function Home() {
             <div className='header'>
                 <div className='top-songs top'>
                     <p>Top Songs</p>
+                    <div className='song1 top-item'></div>
+                    <div className='song2 top-item'></div>
+                    <div className='song3 top-item'></div>
                 </div>
                 <div className='top-artists top'>
                     <p>Top Artists</p>
