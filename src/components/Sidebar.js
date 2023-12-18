@@ -2,6 +2,7 @@ import React from 'react';
 import Player from './home/Player';
 import { NavLink } from 'react-router-dom';
 import logo from '../logos/logoWhite.svg';
+import logoMaroon from '../logos/logoMaroon.svg';
 import './Sidebar.css';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
@@ -13,6 +14,7 @@ import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
 function Sidebar() {
     return (
         <div className='sidebar'>
+            <img className="background-logo" src={logoMaroon} />
             <div className="sidebar-header">
                 <img src={logo} alt="logo"/>
                 <h1>Torus</h1>
@@ -40,7 +42,7 @@ function Sidebar() {
                 </div>
                 <div className='playlists-link link'>
                     <LibraryMusicIcon className='icon' fontSize='large'/>
-                    <NavLink className="navlink">Playlists</NavLink>
+                    <NavLink to="/Playlists" className="navlink">Playlists</NavLink>
                 </div>
             </div>
             <hr />

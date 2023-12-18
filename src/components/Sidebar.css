@@ -1,9 +1,18 @@
 .sidebar {
-    z-index: 1;
+    z-index: 0;
     position: fixed;
     width: 18vw;
     min-height: 100vh;
     background: black;
+}
+
+.background-logo {
+    z-index: -2;
+    position: absolute;
+    height: 150vh;
+    left: 20vw;
+    top: 5vw;
+    overflow: none;
 }
 
 .sidebar-header {
@@ -65,4 +74,12 @@
 
 .link > .icon {
     margin-left: 10px;
+}
+
+
+@media (prefers-reduced-motion: no-preference) {
+    .background-logo {
+        animation: App-logo-float infinite 240s linear;
+        transform-origin: center;
+    }
 }

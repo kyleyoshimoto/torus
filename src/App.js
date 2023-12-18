@@ -9,6 +9,7 @@ import Root from './components/Root';
 import Home from './components/home/Home';
 import Search from './components/search/Search';
 import Profile from './components/profile/Profile';
+import Playlists from './components/playlists/Playlists';
 
 import Spotify from './app/spotify';
 
@@ -19,6 +20,7 @@ const appRouter = createBrowserRouter(createRoutesFromElements(
     <Route index element={ <Home /> } />
     <Route path="/Search" element={ <Search /> } />
     <Route path="/Profile" element={ <Profile /> } />
+    <Route path="/Playlists" element={ <Playlists /> } />
   </Route>
 ));
 

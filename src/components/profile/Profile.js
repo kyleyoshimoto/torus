@@ -7,7 +7,7 @@ import './Profile.css';
 function Profile() {
     return (
         <div className='profile'>
-            <User />
+            <User title="Username"/>
             <TopSongs />
             <ProfileAnalysis />
         </div>

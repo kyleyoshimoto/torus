@@ -1,15 +1,9 @@
 .home {
     min-height: 110vh;
-    background: none;
-}
-
-.background-logo {
-    z-index: 0;
     position: absolute;
-    height: 150vh;
-    left: 20vw;
-    top: 5vw;
-    overflow: none;
+    right: 0;
+    background: none;
+    width: 82vw;
 }
 
 .header {
@@ -24,9 +18,18 @@
     right: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .background-logo {
-        animation: App-logo-float infinite 240s linear;
-        transform-origin: center;
-    }
+.recently-played,
+.listening-mood {
+    border: 1px solid red;
+    position: absolute;
+    top: 50vh;
+    margin: 2vh;
+    width: 48%;
+    min-height: 50vh;
+    border-radius: 10px;
+    background: black;
+}
+
+.listening-mood {
+    right: 0;
 }

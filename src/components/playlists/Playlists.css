@@ -1,0 +1,18 @@
+.playlists-page {
+    border: 1px solid red;
+    position: absolute;
+    width: 82vw;
+    right: 0;
+    min-height: 100vh;
+}
+
+.playlist-list {
+    position: absolute;
+    border: 1px solid red;
+    top: 27vh;
+    margin: 3vh;
+    width: 45%;
+    min-height: 25vh;
+    background: black;
+    border-radius: 10px;
+}

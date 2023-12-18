@@ -1,4 +1,4 @@
-.profile-analysis {
+.playlist-analysis {
     border: 1px solid red;
     position: absolute;
     top: 5vh;
@@ -7,7 +7,7 @@
     width: 40vw;
 }
 
-.profile-analysis > .analysis {
+.playlist-analysis > .analysis {
     position: absolute;
     top: 38vh;
     height: 59vh;

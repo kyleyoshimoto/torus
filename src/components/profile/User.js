@@ -6,14 +6,14 @@ import pianoDog from '../../defaultProfPics/pianoDog.jpeg';
 
 const defaultProfilePics = [djDog, keyboardCat, pianoDog];
 
-function User() {
+function User(props) {
     let profilePic = defaultProfilePics[Math.floor(Math.random() * 3)];
 
     return (
         <div className='user'>
             <img src={profilePic} />
             <div className='user-info'>
-                <h2>Username</h2>
+                <h2>{props.title}</h2>
                 <p># Public Playlists | # Followers | # Following</p>
             </div>
         </div>
