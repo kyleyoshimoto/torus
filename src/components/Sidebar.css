@@ -1,7 +1,7 @@
 .sidebar {
     z-index: 1;
     position: fixed;
-    width: 20vw;
+    width: 18vw;
     min-height: 100vh;
     background: black;
 }
@@ -28,8 +28,8 @@
 .nav {
     position: absolute;
     display: flex;
-    top: 2.8vh;
-    left: 20.5vw;
+    top: 1vh;
+    left: 13vw;
     width: auto;
 }
 

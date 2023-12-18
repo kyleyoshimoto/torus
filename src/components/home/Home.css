@@ -14,52 +14,14 @@
 
 .header {
     z-index: 1;
-    position: absolute;
     display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: space-around;
     border: 1px solid red;
     height: 51vh;
-    width: 80vw;
+    width: 82vw;
     right: 0;
-}
-
-.header > .top {
-    border: solid red 1px;
-    width: 20vw;
-    height: 20vw;
-    background: none;
-    border-radius: 10px;
-}
-
-.header > .top-songs {
-    top: 8vh;
-    left: 35vw;
-}
-
-.top-item {
-    position: absolute;
-    border: white 1px solid;
-    border-radius: 100%;
-    height: 12vh;
-    width: 12vh;
-}
-
-.song1 {
-    z-index: 2;
-    background: dodgerblue;
-    right: 28%;
-}
-
-.song2 {
-    z-index: 1;
-    background: silver;
-    top: 30%;
-}
-
-.song3 {
-    z-index: 1;
-    background-color: white;
-    right: 0;
-    top: 30%;
 }
 
 @media (prefers-reduced-motion: no-preference) {

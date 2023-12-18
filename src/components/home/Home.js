@@ -1,6 +1,6 @@
 import React from 'react';
+import Top from './Top';
 import logoMaroon from "../../logos/logoMaroon.svg";
-import logoWhite from "../../logos/logoWhite.svg";
 import './Home.css';
 
 function Home() {
@@ -8,18 +8,9 @@ function Home() {
         <div className="home">
             <img className="background-logo" src={logoMaroon} />
             <div className='header'>
-                <div className='top-songs top'>
-                    <p>Top Songs</p>
-                    <div className='song1 top-item'></div>
-                    <div className='song2 top-item'></div>
-                    <div className='song3 top-item'></div>
-                </div>
-                <div className='top-artists top'>
-                    <p>Top Artists</p>
-                </div>
-                <div className='top-genres top'>
-                    <p>Top Genres</p>
-                </div>
+                <Top className="top-songs" subject="Songs"/>
+                <Top className="top-artists" subject="Artists"/>
+                {/*<Top className="top-genres" subject="Genres" />*/}
             </div>
         </div>
     )
