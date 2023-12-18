@@ -14,7 +14,7 @@ function User(props) {
             <img src={profilePic} />
             <div className='user-info'>
                 <h2>{props.title}</h2>
-                <p># Public Playlists | # Followers | # Following</p>
+                <p># Public Playlists | # Followers | # Artists Following</p>
             </div>
         </div>
     )

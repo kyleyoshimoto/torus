@@ -13,14 +13,15 @@ const scopes = [
     "playlist-modify-private",
     "user-library-read",
     "user-library-modify",
+    "user-read-private",
     "user-read-email"
 ];
 let accessToken;
 
 const Spotify = {
-    getAccessToken(access) {
-        if (access) {
-            return access;
+    getAccessToken() {
+        if (accessToken) {
+            return accessToken;
         }
         const accessTokenMatch = window.location.href.match(/access_token=([^&]*)/);
         const expiresInMatch = window.location.href.match(/expires_in=([^&]*)/);
