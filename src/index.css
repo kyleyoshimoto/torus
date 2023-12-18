@@ -4,6 +4,14 @@ body::-webkit-scrollbar {
 
 * {
   margin: none;
+  overscroll-behavior: none;
+}
+
+.root {
+  z-index: -2;
+  height: 200vh;
+  background: linear-gradient(290deg, #083464,  black);
+  background-size: contain;
 }
 
 body {
@@ -13,6 +21,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 code {

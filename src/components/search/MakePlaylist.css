@@ -1,0 +1,13 @@
+.make-playlist {
+    position: absolute;
+    top: 9.5vh;
+    right: 1rem;
+    width: 39.5vw;
+    min-height: 88.9vh;
+}
+
+.make-playlist > .playlist {
+    background: black;
+    border-radius: 10px;
+    min-height: 46vh;
+}

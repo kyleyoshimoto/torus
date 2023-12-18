@@ -1,0 +1,17 @@
+.profile-analysis {
+    border: 1px solid red;
+    position: absolute;
+    top: 5vh;
+    right: 3vw;
+    min-height: 100vh;
+    width: 40vw;
+}
+
+.profile-analysis > .analysis {
+    position: absolute;
+    top: 38vh;
+    height: 59vh;
+    width: 100%;
+    background: black;
+    border-radius: 10px;
+}

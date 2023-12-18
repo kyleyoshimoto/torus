@@ -1,17 +1,9 @@
-import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import Spotify from './spotify';
-import logo from '../logo.svg';
+import React from 'react';
+import logo from '../logos/logoMaroon.svg';
 import './Login.css';
-import { addAccessToken } from './spotifySlice';
 
-function Login() {
-    const dispatch = useDispatch();
-
-    const handleLogin = useCallback(() => {
-        dispatch(addAccessToken(Spotify.getAccessToken()));
-    }, []);
-
+function Login(props) {
+    const { handleLogin } = props;
     return (
         <div className="login">
             <div className="login-header">

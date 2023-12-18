@@ -1,0 +1,35 @@
+.home {
+    min-height: 110vh;
+    position: absolute;
+    right: 0;
+    background: none;
+    width: 82vw;
+}
+
+.header {
+    z-index: 1;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: space-around;
+    border: 1px solid red;
+    height: 51vh;
+    width: 82vw;
+    right: 0;
+}
+
+.recently-played,
+.listening-mood {
+    border: 1px solid red;
+    position: absolute;
+    top: 50vh;
+    margin: 2vh;
+    width: 48%;
+    min-height: 50vh;
+    border-radius: 10px;
+    background: black;
+}
+
+.listening-mood {
+    right: 0;
+}
