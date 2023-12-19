@@ -1,7 +1,7 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { selectAccessToken, selectProfile, addAccessToken, getUserProfile } from './app/spotifySlice';
+import { selectAccessToken, addAccessToken, getUserProfile, getTopArtists, getTopTracks} from './app/spotifySlice';
 import { useSelector } from 'react-redux';
 
 import Login from './app/Login';
@@ -28,20 +28,18 @@ function App() {
   const dispatch = useDispatch();
   let token = useSelector(selectAccessToken);
   console.log(`ACCESS TOKEN: ${token}`);
-  const user = useSelector((state) => state.spotifyProfile.userProfile);
-  const isLoadingProfile = useSelector((state) => state.spotifyProfile.isLoadingProfile);
-  const failedToLoadProfile = useSelector((state) => state.spotifyProfile.failedToLoadProfile);
+  //const isLoadingProfile = useSelector((state) => state.spotifyProfile.isLoadingProfile);
+  //const failedToLoadProfile = useSelector((state) => state.spotifyProfile.failedToLoadProfile);
 
   let handleLogin = useCallback(() => {
     if (token) {
       return token;
     };
     dispatch(addAccessToken(Spotify.getAccessToken()));
-  }, [token]);
-
-  useEffect(() => {
     dispatch(getUserProfile());
-  }, []);
+    dispatch(getTopArtists());
+    dispatch(getTopTracks());
+  }, [token]);
 
   return (
     <div>

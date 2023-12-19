@@ -22,10 +22,6 @@
   font-size: calc(10px + 2vmin);
 }
 
-.App-link {
-  color: rgb(112, 76, 182);
-}
-
 @keyframes App-logo-float {
   0% {
     transform: rotate(0);
