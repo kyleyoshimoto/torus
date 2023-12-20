@@ -8,10 +8,15 @@
 
 .top-songs {
     position: absolute;
-    background: black;
+    background: #101010;
     margin: 3vh;
     top: 18vh;
     min-height: 40vh;
     width: 34vw;
     border-radius: 10px;
+}
+
+.top-songs > h3 {
+    font-size: 2rem;
+    margin-left: 1rem;
 }

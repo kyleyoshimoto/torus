@@ -4,6 +4,9 @@ import './Player.css';
 function Player() {
     return (
         <div className='player'>
+            <div className='track-container'>
+                <img />
+            </div>
             <p>Player</p>
             <p>API calls to host:</p>
             <p>Get Currently Playing Track</p>

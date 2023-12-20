@@ -1,4 +1,4 @@
-import { clientId } from "../secret";
+import { clientId } from "../../secret";
 
 // https://developer.spotify.com/documentation/web-playback-sdk/quick-start/#
 export const authEndpoint = "https://accounts.spotify.com/authroize";
@@ -13,6 +13,7 @@ const scopes = [
     "playlist-modify-private",
     "user-library-read",
     "user-library-modify",
+    "user-read-currently-playing",
     "user-read-private",
     "user-read-email"
 ];
