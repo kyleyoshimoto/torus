@@ -1,0 +1,41 @@
+.player {
+    border-top: solid 1px white;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: 50vh;
+    width: 18vw;
+    bottom: 0;
+    background: black;
+}
+
+.track-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
+}
+
+.track-container > img {
+    width: 16vw;
+    max-width: 280px;
+    border-radius: 10px;
+}
+
+.track-container > h4 {
+    font-size: 1.2rem;
+}
+
+.track-container > h4,
+.track-container > p {
+    margin: 4px;
+    text-align: center;
+}
+
+.track-container > .artist {
+    font-size: 0.9rem;
+}
+
+.album {
+    font-size: 0.8rem;
+}

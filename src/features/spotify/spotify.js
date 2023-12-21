@@ -1,4 +1,4 @@
-import { clientId } from "../secret";
+import { clientId } from "../../secret";
 
 // https://developer.spotify.com/documentation/web-playback-sdk/quick-start/#
 export const authEndpoint = "https://accounts.spotify.com/authroize";
@@ -13,14 +13,17 @@ const scopes = [
     "playlist-modify-private",
     "user-library-read",
     "user-library-modify",
+    "user-read-currently-playing",
+    "user-read-playback-state",
+    "user-read-private",
     "user-read-email"
 ];
 let accessToken;
 
 const Spotify = {
-    getAccessToken(access) {
-        if (access) {
-            return access;
+    getAccessToken() {
+        if (accessToken) {
+            return accessToken;
         }
         const accessTokenMatch = window.location.href.match(/access_token=([^&]*)/);
         const expiresInMatch = window.location.href.match(/expires_in=([^&]*)/);

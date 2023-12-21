@@ -1,5 +1,5 @@
 import React from 'react';
-import Player from './home/Player';
+import Player from '../features/player/Player';
 import { NavLink } from 'react-router-dom';
 import logo from '../logos/logoWhite.svg';
 import logoMaroon from '../logos/logoMaroon.svg';
@@ -45,7 +45,6 @@ function Sidebar() {
                     <NavLink to="/Playlists" className="navlink">Playlists</NavLink>
                 </div>
             </div>
-            <hr />
             <Player />
         </div>
     )

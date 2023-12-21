@@ -2,16 +2,22 @@ import React from 'react';
 import './Top.css';
 
 function Top(props) {
+    const { items, subject } = props;
     return (
         <div className='top'>
             <div className='top-subject'>
-                <h3>Top {props.subject}</h3>
+                <h3>Top {subject}</h3>
             </div>
             <div className='top-items'>
-                <div className='top-item1 top-item'></div>
-                <div className='top-item2 top-item'></div>
-                <div className='top-item3 top-item'></div>
+                <img src={items[0]?.image} className='top-item1 top-item' />
+                <img src={items[1]?.image} className='top-item2 top-item' />
+                <img src={items[2]?.image} className='top-item3 top-item' />
             </div>
+                <ol className='rankings'>
+                    <li>{items[0]?.name}</li>
+                    <li>{items[1]?.name}</li>
+                    <li>{items[2]?.name}</li>
+                </ol>
         </div>
     )
 }
