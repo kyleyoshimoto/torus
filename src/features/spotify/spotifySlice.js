@@ -30,7 +30,7 @@ export const getUserProfile = createAsyncThunk(
 
 export const getTopTracks = createAsyncThunk(
     'spotifyProfile/getTopTracks',
-    async (term = "medium_term") => {
+    async (term = "short_term") => {
         try {
             const accessToken = Spotify.getAccessToken();
             const response = await fetch(`https://api.spotify.com/v1/me/top/tracks?time_range=${term}`, {
@@ -63,7 +63,7 @@ export const getTopTracks = createAsyncThunk(
 
 export const getTopArtists = createAsyncThunk(
     'spotifyProfile/getTopArtists',
-    async (term = "medium_term") => {
+    async (term = "short_term") => {
         try {
             const accessToken = Spotify.getAccessToken();
             const response = await fetch(`https://api.spotify.com/v1/me/top/artists?time_range=${term}`, {

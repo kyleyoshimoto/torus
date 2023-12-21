@@ -76,7 +76,6 @@
     margin-left: 10px;
 }
 
-
 @media (prefers-reduced-motion: no-preference) {
     .background-logo {
         animation: App-logo-float infinite 240s linear;

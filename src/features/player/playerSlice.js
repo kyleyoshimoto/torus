@@ -15,7 +15,6 @@ export const getCurrentlyPlaying = createAsyncThunk(
             }
 
             const jsonResponse = await response.json();
-            console.log(`CURRENTLY PLAYING:`, jsonResponse);
 
             return {
                 device: {

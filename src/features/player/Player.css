@@ -3,7 +3,7 @@
     display: flex;
     flex-direction: column;
     position: fixed;
-    height: 49vh;
+    height: 50vh;
     width: 18vw;
     bottom: 0;
     background: black;
@@ -11,8 +11,30 @@
 
 .track-container {
     border: 1px red solid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem 0;
 }
 
 .track-container > img {
-    width: 16vw;
+    width: 14vw;
+}
+
+.track-container > h4 {
+    font-size: 1.2rem;
+}
+
+.track-container > h4,
+.track-container > p {
+    margin: 4px;
+    text-align: center;
+}
+
+.track-container > .artist {
+    font-size: 0.9rem;
+}
+
+.album {
+    font-size: 0.8rem;
 }
