@@ -1,5 +1,5 @@
 import React from 'react';
-import { selectTopTracks, selectTopArtists } from '../../app/spotifySlice';
+import { selectTopTracks, selectTopArtists } from '../../features/spotify/spotifySlice';
 import { useSelector } from 'react-redux';
 import Top from './Top';
 import './Home.css';

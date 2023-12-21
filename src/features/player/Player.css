@@ -1,8 +1,18 @@
 .player {
     border-top: solid 1px white;
+    display: flex;
+    flex-direction: column;
     position: fixed;
     height: 49vh;
     width: 18vw;
     bottom: 0;
     background: black;
+}
+
+.track-container {
+    border: 1px red solid;
+}
+
+.track-container > img {
+    width: 16vw;
 }

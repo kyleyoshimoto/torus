@@ -1,6 +1,6 @@
 import React from 'react';
 import './User.css';
-import { selectDisplayName, selectProfilePic, selectFollowers } from '../../app/spotifySlice';
+import { selectDisplayName, selectProfilePic, selectFollowers } from '../../features/spotify/spotifySlice';
 import djDog from '../../defaultProfPics/DJDog.jpeg';
 import keyboardCat from '../../defaultProfPics/keyboardCat.jpeg';
 import pianoDog from '../../defaultProfPics/pianoDog.jpeg';

@@ -2,7 +2,7 @@ import React from 'react';
 import User from './User';
 import Tracklist from '../tracklist/Tracklist';
 import ProfileAnalysis from './ProfileAnalysis';
-import { selectDisplayName, selectTopTracks } from '../../app/spotifySlice';
+import { selectDisplayName, selectTopTracks } from '../../features/spotify/spotifySlice';
 import './Profile.css';
 import { useSelector } from 'react-redux';
 

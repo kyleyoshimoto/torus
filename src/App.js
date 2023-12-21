@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { selectAccessToken, addAccessToken, getUserProfile, getTopArtists, getTopTracks} from './app/spotifySlice';
+import { selectAccessToken, addAccessToken, getUserProfile, getTopArtists, getTopTracks} from './features/spotify/spotifySlice';
 import { useSelector } from 'react-redux';
 
 import Login from './app/Login';
@@ -11,7 +11,7 @@ import Search from './components/search/Search';
 import Profile from './components/profile/Profile';
 import Playlists from './components/playlists/Playlists';
 
-import Spotify from './app/spotify';
+import Spotify from './features/spotify/spotify';
 
 import './App.css';
 
