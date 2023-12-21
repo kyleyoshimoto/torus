@@ -1,6 +1,8 @@
 .player {
     border-top: solid 1px white;
     display: flex;
+    justify-content: space-evenly;
+    align-items: center;
     flex-direction: column;
     position: fixed;
     height: 50vh;
@@ -9,11 +11,23 @@
     background: black;
 }
 
+.player > .loading {
+    text-align: center;
+    margin: 2rem;
+}
+
 .track-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: 1rem 0;
+}
+
+.track-container > .playing-from {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    height: 2rem;
 }
 
 .track-container > img {
@@ -28,7 +42,7 @@
 
 .track-container > h4,
 .track-container > p {
-    margin: 4px;
+    margin: 0 4px;
     text-align: center;
 }
 
@@ -38,4 +52,19 @@
 
 .album {
     font-size: 0.8rem;
+}
+
+.pause-play {
+    display: flex;
+    justify-content: center;
+}
+
+.volume {
+    display: flex;
+    align-items: center;
+    width: 17vw;
+}
+
+.volumeIcon {
+    margin: 0 4px;
 }
