@@ -30,7 +30,7 @@
 }
 
 .sidebar-header > h1 {
-    font-size: 4.8rem;
+    font-size: 4rem;
     margin: 0 0.2rem;
 }
 
@@ -50,7 +50,7 @@
 }
 
 .sidebar-links {
-    margin: 2rem 0;
+    margin: 0;
 }
 
 .link {
@@ -63,7 +63,7 @@
     margin: 10px;
     text-decoration: none;
     color: gray;
-    font-size: 1.4rem;
+    font-size: 1.3rem;
     transition: font-size 50ms ease-in-out, color 50ms ease-in-out;
 }
 

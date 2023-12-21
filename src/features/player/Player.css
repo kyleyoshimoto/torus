@@ -5,7 +5,7 @@
     align-items: center;
     flex-direction: column;
     position: fixed;
-    height: 50vh;
+    height: 54vh;
     width: 18vw;
     bottom: 0;
     background: black;
@@ -17,6 +17,7 @@
 }
 
 .track-container {
+    padding-top: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -54,6 +55,10 @@
     font-size: 0.8rem;
 }
 
+.timer {
+    width: 14vw;
+}
+
 .pause-play {
     display: flex;
     justify-content: center;
@@ -63,6 +68,7 @@
     display: flex;
     align-items: center;
     width: 17vw;
+    margin-bottom: 1.5rem;
 }
 
 .volumeIcon {

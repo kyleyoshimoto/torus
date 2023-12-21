@@ -43,8 +43,10 @@
 
 .login-header > .App-logo {
     position: absolute;
-    top: 18%;
-    right: 38%;
+    top: 20%;
+    right: 0;
+    left: 0;
+    margin: auto;
     height: 40vh;
     pointer-events: none;
 }

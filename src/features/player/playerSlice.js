@@ -16,6 +16,8 @@ export const getCurrentlyPlaying = createAsyncThunk(
 
             const jsonResponse = await response.json();
 
+            console.log("Getting currently playing...")
+
             return {
                 device: {
                     name: jsonResponse.device.name,
@@ -79,22 +81,46 @@ export const play = createAsyncThunk(
             const response = await fetch('https://api.spotify.com/v1/me/player/play', {
                 method: 'PUT',
                 headers: { Authorization: `Bearer ${accessToken}` },
-                body: ''
             });
 
             if (response.ok) {
                 const updatedData = await response.json();
-                console.log(`DATA SUCCESSFULLY UPDATED, MUSIC PAUSED: ${updatedData}`);
+                console.log(`DATA SUCCESSFULLY UPDATED, MUSIC PLAYING: ${updatedData}`);
                 return false;
             } else {
-                throw new Error('Failed to pause track.')
+                throw new Error('Failed to play track.')
             }
         } catch (error) {
-            console.error('Error fetching currently playing:', error);
+            console.error('Error resuming currently playing:', error);
             throw error; // Rethrow the error to inform Redux Toolkit about the failure
         }
     }
-)
+);
+
+export const changeVolume = createAsyncThunk(
+    'player/changeVolume',
+    async (volume) => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+            const response = await fetch(`https://api.spotify.com/v1/me/player/volume?volume_percent=${volume}`, {
+                method: 'PUT',
+                headers: { Authorization: `Bearer ${accessToken}` },
+            });
+
+            if (response.ok) {
+                // Handle success case here
+                return true;
+            } else {
+                // Handle non-OK response status (e.g., 4xx, 5xx)
+                console.error('Failed to change volume. Status:', response.status);
+                return false;
+            }
+        } catch (error) {
+            console.error('Error changing volume:', error);
+            throw error;
+        }
+    }
+);
 
 export const playerSlice = createSlice({
     name: 'player',
@@ -123,9 +149,10 @@ export const playerSlice = createSlice({
             state.loadingCurrentlyPlaying = false;
             state.errorCurrentlyPlaying = null;
             state.currentlyPlaying = action.payload;
+            state.isPlaying = action.payload.timing.isPlaying;
         },
         [pause.fulfilled]: (state) => {
-            state.currentlyPlaying.timing.isPlaying = false;
+            state.isPlaying = false;
         }
     }
 });
