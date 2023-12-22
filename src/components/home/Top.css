@@ -62,7 +62,19 @@
 }
 
 .rankings {
+    height: 3vw;
     display: flex;
     justify-content: space-around;
+    align-items: center;
     margin: 0;
+    margin-top: -2vw;
+    padding: 0;
+}
+
+.top1 {
+    align-self: flex-start;
+}
+
+.top3 {
+    align-self: flex-end;
 }

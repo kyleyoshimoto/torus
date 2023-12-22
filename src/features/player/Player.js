@@ -55,8 +55,6 @@ function Player() {
         } else {
             timeLeft = 8000; // Assign value within the else block
         }
-
-        console.log(`Time Left in Track: ${(timeLeft / 1000) / 60} minutes.`)
     
         const intervalId = setInterval(() => {
             dispatch(getCurrentlyPlaying());
@@ -81,6 +79,7 @@ function Player() {
         }
     
         let intervalId;
+        let thirtySecondsIntervalId;
     
         if (isPlaying && !finished) {
             intervalId = setInterval(() => {
@@ -101,10 +100,10 @@ function Player() {
             }, 850);
     
             // Additional update every 15 seconds
-            const thirtySecondsIntervalId = setInterval(() => {
+            thirtySecondsIntervalId = setInterval(() => {
                 setProgress(currentlyPlaying.timing.progress);
-                console.log('Updating progress every 30 seconds...');
-            }, 30000);
+                console.log('Updating progress every 15 seconds...');
+            }, 15000);
     
             // Clean up the additional 30 seconds interval
             return () => {
@@ -116,6 +115,7 @@ function Player() {
         // Clean up the interval when component unmounts or when isPlaying changes to false
         return () => {
             clearInterval(intervalId);
+            clearInterval(thirtySecondsIntervalId);
         };
     }, [currentlyPlaying, isPlaying, duration, finished, progress, currentSong]);
     

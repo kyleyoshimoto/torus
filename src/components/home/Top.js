@@ -14,9 +14,9 @@ function Top(props) {
                 <img src={items[2]?.image} className='top-item3 top-item' />
             </div>
                 <ol className='rankings'>
-                    <li>{items[0]?.name}</li>
-                    <li>{items[1]?.name}</li>
-                    <li>{items[2]?.name}</li>
+                    <li className='top1'>{items[0]?.name}</li>
+                    <li className='top2'>{items[1]?.name}</li>
+                    <li className='top3'>{items[2]?.name}</li>
                 </ol>
         </div>
     )
