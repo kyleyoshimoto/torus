@@ -151,9 +151,6 @@ export const playerSlice = createSlice({
             state.currentlyPlaying = action.payload;
             state.isPlaying = action.payload.timing.isPlaying;
         },
-        [pause.fulfilled]: (state) => {
-            state.isPlaying = false;
-        }
     }
 });
 

@@ -22,9 +22,16 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import Slider from '@mui/material/Slider';
 import VolumeDown from '@mui/icons-material/VolumeDown';
 import VolumeUp from '@mui/icons-material/VolumeUp';
+import { current } from '@reduxjs/toolkit';
 
 function Player() {
     const [initialRender, setInitialRender] = useState(true);
+    const [currentSong, setCurrentSong] = useState("");
+    const [progress, setProgress] = useState(0);
+    const [progressMin, setProgressMin] = useState(0);
+    const [progressSec, setProgressSec] = useState(0);
+    const [finished, setFinished] = useState(true);
+    const [duration, setDuration] = useState(1);
     const [volume, setVolume] = useState(25);
     const [pendingVolume, setPendingVolume] = useState(null);
 
@@ -34,8 +41,9 @@ function Player() {
     const errorPlayer = useSelector(selectErrorCurrentlyPlaying);
     const isPlaying = useSelector(selectIsPlaying);
 
+    // Dispatch currently playing function
     useEffect(() => {
-        let timeLeft; // Declare timeLeft variable here
+        let timeLeft;
 
         if (initialRender) {
             dispatch(getCurrentlyPlaying());
@@ -45,7 +53,7 @@ function Player() {
         if (currentlyPlaying.track && currentlyPlaying.timing.isPlaying) {
             timeLeft = 3500; // Assign value within the if block
         } else {
-            timeLeft = 10000; // Assign value within the else block
+            timeLeft = 8000; // Assign value within the else block
         }
 
         console.log(`Time Left in Track: ${(timeLeft / 1000) / 60} minutes.`)
@@ -57,12 +65,65 @@ function Player() {
         return () => clearInterval(intervalId);
     }, [dispatch]);
 
+    // Song timer function
+    useEffect(() => {
+        setDuration(currentlyPlaying?.timing?.duration);
+    
+        if (finished && currentlyPlaying.track) {
+            setProgress(currentlyPlaying?.timing?.progress + 1000);
+            setCurrentSong(currentlyPlaying?.track?.name);
+            setFinished(false);
+        }
+    
+        if (currentSong !== currentlyPlaying?.track?.name) {
+            setProgress(currentlyPlaying?.timing?.progress);
+            setCurrentSong(currentlyPlaying?.track?.name);
+        }
+    
+        let intervalId;
+    
+        if (isPlaying && !finished) {
+            intervalId = setInterval(() => {
+                if (progress + 1000 >= duration) {
+                    setFinished(true);
+                    clearInterval(intervalId);
+                    return;
+                }
+    
+                // Calculate updated progress and time
+                const updatedProgress = progress + 1000;
+                const updatedSeconds = Math.floor((updatedProgress % 60000) / 1000);
+                const updatedMinutes = Math.floor(updatedProgress / 60000);
+    
+                setProgress(updatedProgress);
+                setProgressSec(updatedSeconds);
+                setProgressMin(updatedMinutes);
+            }, 850);
+    
+            // Additional update every 15 seconds
+            const thirtySecondsIntervalId = setInterval(() => {
+                setProgress(currentlyPlaying.timing.progress);
+                console.log('Updating progress every 30 seconds...');
+            }, 30000);
+    
+            // Clean up the additional 30 seconds interval
+            return () => {
+                clearInterval(intervalId);
+                clearInterval(thirtySecondsIntervalId);
+            };
+        }
+    
+        // Clean up the interval when component unmounts or when isPlaying changes to false
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, [currentlyPlaying, isPlaying, duration, finished, progress, currentSong]);
+    
+    
+    
+    // Volume adjuster function
     useEffect(() => {
         let timeoutId;
-        
-        if (currentlyPlaying.timing && typeof currentlyPlaying.timing.isPlaying !== 'undefined') {
-            dispatch(updateStatus(currentlyPlaying.timing.isPlaying));
-        } else {console.log('NO CURRENTLY PLAYING INFO')};
 
         if (pendingVolume !== null) {
             timeoutId = setTimeout(() => {
@@ -88,7 +149,7 @@ function Player() {
     const handlePause = useCallback(
         (event) => {
             dispatch(pause());
-            dispatch(getCurrentlyPlaying());
+            dispatch(updateStatus(false));
         }, 
         []
     );
@@ -96,18 +157,10 @@ function Player() {
     const handlePlay = useCallback(
         (event) => {
             dispatch(play());
-            dispatch(getCurrentlyPlaying());
+            dispatch(updateStatus(true));
         },
         []
     );
-
-    if (!currentlyPlaying.track && loadingPlayer) {
-        return (
-            <div className='player'>
-                <p className='loading'>Loading...</p>
-            </div>
-        )
-    };
 
     if (!currentlyPlaying.track) {
         return (
@@ -150,41 +203,47 @@ function Player() {
 
     return (
         <div className='player'>
+            <div className='playing-from'>
+                <p>Currently Playing: </p>
+                <p><SpeakerIcon fontSize='small'/>{currentlyPlaying.device.name}</p>
+            </div>
             <div className='track-container'>
-                <div className='playing-from'>
-                    <SpeakerIcon fontSize='small'/>
-                    <p>{currentlyPlaying.device.name}</p>
-                </div>
                 <img src={currentlyPlaying.track.album.cover} alt="Album Cover" />
                 <h4>{currentlyPlaying.track.name}</h4>
                 <p className='artist'>{currentlyPlaying.track.artist}</p>
                 <p className='album'>{currentlyPlaying.track.album.name}</p>
             </div>
             <div className='timer'>
-                <Slider
-                    size="small"
-                />
+                <p id="start-time">{progressMin}:{String(progressSec).padStart(2, "0")}</p>
+                <p id="end-time">{Math.floor(duration / 60000)}:{String(Math.floor((duration % 60000) / 1000)).padStart(2,"0")}</p>
+                <input type="range" value={progress} min="0" max={duration} id="progress"/>
             </div>
             <div className='player-controls'>
                 <div className='pause-play'>
-                    <SkipPreviousIcon fontSize="large"/>
-                    {isPlaying ? <PauseIcon onClick={handlePause} fontSize="large"/> : <PlayArrowIcon onClick={handlePlay} fontSize="large" />}
-                    <SkipNextIcon fontSize="large"/>
-                </div>
+                    <SkipPreviousIcon fontSize="large" className='pointer'/>
+                    {isPlaying ? <PauseIcon onClick={handlePause} fontSize="large" className='pointer'/> : <PlayArrowIcon onClick={handlePlay} fontSize="large" className='pointer'/>}
+                    <SkipNextIcon fontSize="large" className='pointer'/>
+                </div>  
+                {currentlyPlaying.device.name === "iPhone"
+                    ?
+                <></>
+                    :
                 <div className='volume'>
                     <VolumeDown className='volumeIcon'/>
-                    <Slider 
+                    <Slider                         
                         size="small" 
                         aria-label="Volume" 
                         value={volume} 
                         onChange={handleVolumeChange}
-                        defaultValue={currentlyPlaying.device.volume}
+                        defaultValue={volume}
                         min={0}
                         max={100}
                         step={1}
+                        className='pointer'
                     />
                     <VolumeUp className='volumeIcon'/>
                 </div>
+                }
             </div>
         </div>
     );
