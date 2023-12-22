@@ -32,7 +32,8 @@
     align-items: center;
 }
 
-.track-container > img {
+.track-container > img,
+.album-cover {
     width: 16vw;
     max-width: 280px;
     border-radius: 10px;

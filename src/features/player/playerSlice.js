@@ -49,50 +49,51 @@ export const getCurrentlyPlaying = createAsyncThunk(
     }
 );
 
-export const pause = createAsyncThunk(
-    'player/pause',
-    async () => {
+export const playPause = createAsyncThunk(
+    'player/playPause',
+    async (startStop) => {
         try {
             const accessToken = Spotify.getAccessToken();
-            const response = await fetch('https://api.spotify.com/v1/me/player/pause', {
-                method: 'PUT',
-                headers: { Authorization: `Bearer ${accessToken}` }
-            });
-
-            if (response.ok) {
-                const updatedData = await response.json();
-                console.log(`DATA SUCCESSFULLY UPDATED, MUSIC PAUSED: ${updatedData}`);
-                return false;
-            } else {
-                throw new Error('Failed to pause track.')
-            }
-        } catch (error) {
-            console.error('Error fetching currently playing:', error);
-            throw error; // Rethrow the error to inform Redux Toolkit about the failure
-        }
-    }
-)
-
-export const play = createAsyncThunk(
-    'player/play',
-    async () => {
-        try {
-            const accessToken = Spotify.getAccessToken();
-            const response = await fetch('https://api.spotify.com/v1/me/player/play', {
+            const response = await fetch(`https://api.spotify.com/v1/me/player/${startStop}`, {
                 method: 'PUT',
                 headers: { Authorization: `Bearer ${accessToken}` },
             });
 
             if (response.ok) {
-                const updatedData = await response.json();
-                console.log(`DATA SUCCESSFULLY UPDATED, MUSIC PLAYING: ${updatedData}`);
+                //const updatedData = await response.json();
+                console.log(`DATA SUCCESSFULLY UPDATED, MUSIC ${startStop}ING`);
+                if (startStop === 'play') {
+                    return true;
+                }
                 return false;
             } else {
-                throw new Error('Failed to play track.')
+                throw new Error(`Failed to ${startStop} track.`)
             }
         } catch (error) {
-            console.error('Error resuming currently playing:', error);
+            console.error(`Error ${startStop} currently playing:`, error);
             throw error; // Rethrow the error to inform Redux Toolkit about the failure
+        }
+    }
+);
+
+export const skipTrack = createAsyncThunk(
+    'player/skipTrack',
+    async (skip) => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+            const response = await fetch(`https://api.spotify.com/v1/me/player/${skip}`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+
+            if (response.ok) {
+                console.log(`DATA SUCCESSFULLY UPDATED, MUSIC SKIPPED ${skip}`);
+            } else {
+                throw new Error(`Failed to skip ${skip}.`)
+            }
+        } catch (error) {
+            console.error(`Error skipping to ${skip}.`, error);
+            throw error;
         }
     }
 );

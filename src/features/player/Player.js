@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { 
     getCurrentlyPlaying, 
-    play, 
-    pause, 
+    playPause, 
+    skipTrack,
     changeVolume, 
     updateStatus, 
     selectIsPlaying, 
@@ -22,7 +22,6 @@ import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
 import Slider from '@mui/material/Slider';
 import VolumeDown from '@mui/icons-material/VolumeDown';
 import VolumeUp from '@mui/icons-material/VolumeUp';
-import { current } from '@reduxjs/toolkit';
 
 function Player() {
     const [initialRender, setInitialRender] = useState(true);
@@ -97,7 +96,7 @@ function Player() {
                 setProgress(updatedProgress);
                 setProgressSec(updatedSeconds);
                 setProgressMin(updatedMinutes);
-            }, 850);
+            }, 900);
     
             // Additional update every 15 seconds
             thirtySecondsIntervalId = setInterval(() => {
@@ -148,7 +147,7 @@ function Player() {
 
     const handlePause = useCallback(
         (event) => {
-            dispatch(pause());
+            dispatch(playPause('pause'));
             dispatch(updateStatus(false));
         }, 
         []
@@ -156,8 +155,24 @@ function Player() {
 
     const handlePlay = useCallback(
         (event) => {
-            dispatch(play());
+            dispatch(playPause('play'));
             dispatch(updateStatus(true));
+        },
+        []
+    );
+
+    const handleSkipNext = useCallback(
+        (event) => {
+            dispatch(skipTrack('next'));
+            dispatch(getCurrentlyPlaying);
+        },
+        []
+    );
+
+    const handleSkipPrevious = useCallback(
+        (event) => {
+            dispatch(skipTrack('previous'));
+            dispatch(getCurrentlyPlaying);
         },
         []
     );
@@ -169,7 +184,9 @@ function Player() {
                 <div className='playing-from'>
                     <p>Play music from Spotify™</p>
                 </div>
-                <img src={spotifyLogo} alt="Album Cover" />
+                <a href='https://open.spotify.com/?' target='_blank'>
+                    <img src={spotifyLogo} alt="Album Cover" className='album-cover'/>
+                </a>
                 <h4>...</h4>
             </div>
             <div className='timer'>
@@ -220,9 +237,9 @@ function Player() {
             </div>
             <div className='player-controls'>
                 <div className='pause-play'>
-                    <SkipPreviousIcon fontSize="large" className='pointer'/>
+                    <SkipPreviousIcon onClick={handleSkipPrevious} fontSize="large" className='pointer'/>
                     {isPlaying ? <PauseIcon onClick={handlePause} fontSize="large" className='pointer'/> : <PlayArrowIcon onClick={handlePlay} fontSize="large" className='pointer'/>}
-                    <SkipNextIcon fontSize="large" className='pointer'/>
+                    <SkipNextIcon onClick={handleSkipNext} fontSize="large" className='pointer'/>
                 </div>  
                 {currentlyPlaying.device.name === "iPhone"
                     ?
