@@ -98,6 +98,72 @@ export const skipTrack = createAsyncThunk(
     }
 );
 
+export const seekToPosition = createAsyncThunk(
+    'player/seekToPosition',
+    async (position) => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+            const response = await fetch(`https://api.spotify.com/v1/me/player/seek?position_ms=${position}`, {
+                method: 'PUT',
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+
+            if (response.ok) {
+                console.log(`DATA SUCCESSFULLY UPDATED, MUSIC SET TO POSITION: ${position}`);
+            } else {
+                throw new Error(`Failed to seek to position.`)
+            }
+        } catch (error) {
+            console.error("Error seeking to position.", error);
+            throw error;
+        }
+    }
+);
+
+export const toggleShuffle = createAsyncThunk(
+    'player/toggleShuffle',
+    async (state) => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+            const response = await fetch(`https://api.spotify.com/v1/me/player/shuffle?state=${state}`, {
+                method: 'PUT',
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+
+            if (response.ok) {
+                console.log(`SHUFFLE TOGGLED`);
+            } else {
+                throw new Error('Failed to toggle shuffle')
+            }
+        } catch (error) {
+            console.error("error toggling shuffle", error);
+            throw error;
+        }
+    }
+);
+
+export const setRepeatMode = createAsyncThunk(
+    'player/setRepeatMode',
+    async (mode) => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+            const response = await fetch(`https://api.spotify.com/v1/me/player/repeat?state=${mode}`, {
+                method: 'PUT',
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+
+            if (response.ok) {
+                console.log(`Repeat mode set`)
+            } else {
+                throw new Error('Failed to set repeat mode')
+            }
+        } catch (error) {
+            console.error("error setting repeat mode", error);
+            throw error;
+        }
+    }
+)
+
 export const changeVolume = createAsyncThunk(
     'player/changeVolume',
     async (volume) => {

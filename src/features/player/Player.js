@@ -3,6 +3,9 @@ import {
     getCurrentlyPlaying, 
     playPause, 
     skipTrack,
+    toggleShuffle,
+    setRepeatMode,
+    seekToPosition,
     changeVolume, 
     updateStatus, 
     selectIsPlaying, 
@@ -19,6 +22,11 @@ import PauseIcon from '@mui/icons-material/Pause';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import SkipPreviousIcon from '@mui/icons-material/SkipPrevious';
+import ShuffleIcon from '@mui/icons-material/Shuffle';
+import ShuffleOnIcon from '@mui/icons-material/ShuffleOn';
+import RepeatIcon from '@mui/icons-material/Repeat';
+import RepeatOnIcon from '@mui/icons-material/RepeatOn';
+import RepeatOneOnIcon from '@mui/icons-material/RepeatOneOn';
 import Slider from '@mui/material/Slider';
 import VolumeDown from '@mui/icons-material/VolumeDown';
 import VolumeUp from '@mui/icons-material/VolumeUp';
@@ -31,6 +39,10 @@ function Player() {
     const [progressSec, setProgressSec] = useState(0);
     const [finished, setFinished] = useState(true);
     const [duration, setDuration] = useState(1);
+    const [seeking, setSeeking] = useState(false);
+    const [pendingSeek, setPendingSeek] = useState(0);
+    const [shuffleState, setShuffleState] = useState(false);
+    const [repeatMode, setRepeatMode] = useState(0)
     const [volume, setVolume] = useState(25);
     const [pendingVolume, setPendingVolume] = useState(null);
 
@@ -82,9 +94,11 @@ function Player() {
     
         if (isPlaying && !finished) {
             intervalId = setInterval(() => {
-                if (progress + 1000 >= duration) {
+                if (progress + 500 >= duration || seeking) {
+                    setProgress(currentlyPlaying.timing.progress);
                     setFinished(true);
                     clearInterval(intervalId);
+                    clearInterval(thirtySecondsIntervalId);
                     return;
                 }
     
@@ -109,16 +123,35 @@ function Player() {
                 clearInterval(intervalId);
                 clearInterval(thirtySecondsIntervalId);
             };
-        }
+        };
     
         // Clean up the interval when component unmounts or when isPlaying changes to false
         return () => {
             clearInterval(intervalId);
             clearInterval(thirtySecondsIntervalId);
         };
-    }, [currentlyPlaying, isPlaying, duration, finished, progress, currentSong]);
-    
-    
+    }, [currentlyPlaying, isPlaying, duration, finished, progress, currentSong, seeking]);
+
+    // Seek to Position
+    useEffect(() => {
+        let timeoutId;
+
+        if (pendingSeek !== 0) {
+            timeoutId = setTimeout(() => {
+                dispatch(seekToPosition(pendingSeek));
+                setProgress(pendingSeek);
+                setPendingSeek(0);
+                console.log(`Seeking to position ${pendingSeek}`);
+                setSeeking(false);
+            }, 500);
+        }
+
+        return () => {
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+        };
+    }, [dispatch, pendingSeek]);
     
     // Volume adjuster function
     useEffect(() => {
@@ -138,7 +171,7 @@ function Player() {
                 clearTimeout(timeoutId);
             }
         }
-    }, [dispatch, volume])
+    }, [dispatch, volume]);
 
     const handleVolumeChange = (event, newValue) => {
         setVolume(newValue);
@@ -176,6 +209,65 @@ function Player() {
         },
         []
     );
+
+    const handleSeekToPosition = useCallback(
+        (event) => {
+            const newValue = event.target.value;
+            setSeeking(true);
+            setProgress(newValue);
+            setFinished(false);
+            setPendingSeek(newValue);
+        },
+        []
+    );
+
+    const handleShuffle = useCallback(
+        () => {
+            if (shuffleState) {
+                setShuffleState(false);
+                dispatch(toggleShuffle(false));
+                console.log(shuffleState);
+            } else {
+                setShuffleState(true);
+                dispatch(toggleShuffle(true));
+                console.log(shuffleState);
+            }
+        },
+        [shuffleState]
+    );
+
+    const handleRepeat = useCallback(
+        () => {
+            if (repeatMode === 0) {
+                dispatch(setRepeatMode('off'));
+                setRepeatMode(1);
+            } else if (repeatMode === 1) {
+                dispatch(setRepeatMode('context'));
+                setRepeatMode(2);
+            } else {
+                dispatch(setRepeatMode('track'));
+                setRepeatMode(0);
+            }
+        }
+    )
+
+    const renderRepeat = () => {
+        if (repeatMode === 1) {
+            return (<RepeatOnIcon className='repeat pointer' onClick={handleRepeat} />)
+        } else if (repeatMode === 2) {
+            return (<RepeatOneOnIcon className='repeat pointer' onClick={handleRepeat} />)
+        } else if (repeatMode === 0) {
+            return (<RepeatIcon className='repeat pointer' onClick={handleRepeat} />)
+        }
+    };
+
+    const renderShuffle = () => {
+        if (shuffleState) {
+            return <ShuffleOnIcon className='shuffle pointer' onClick={handleShuffle} />
+        } else {
+            return <ShuffleIcon className='shuffle pointer' onClick={handleShuffle} />
+        }
+    };
 
     if (!currentlyPlaying.track) {
         return (
@@ -233,13 +325,29 @@ function Player() {
             <div className='timer'>
                 <p id="start-time">{progressMin}:{String(progressSec).padStart(2, "0")}</p>
                 <p id="end-time">{Math.floor(duration / 60000)}:{String(Math.floor((duration % 60000) / 1000)).padStart(2,"0")}</p>
-                <input type="range" value={progress} min="0" max={duration} id="progress"/>
+                <input 
+                    type="range" 
+                    value={progress} 
+                    min="0" 
+                    max={duration} 
+                    id="progress"
+                />
+                <input
+                    type="range"
+                    className='timer-bar'
+                    id="timer-bar"
+                    min="0"
+                    max={duration}
+                    onMouseUp={handleSeekToPosition}
+                />
             </div>
             <div className='player-controls'>
                 <div className='pause-play'>
+                    {renderRepeat()}
                     <SkipPreviousIcon onClick={handleSkipPrevious} fontSize="large" className='pointer'/>
                     {isPlaying ? <PauseIcon onClick={handlePause} fontSize="large" className='pointer'/> : <PlayArrowIcon onClick={handlePlay} fontSize="large" className='pointer'/>}
                     <SkipNextIcon onClick={handleSkipNext} fontSize="large" className='pointer'/>
+                    {renderShuffle()}
                 </div>  
                 {currentlyPlaying.device.name === "iPhone"
                     ?
