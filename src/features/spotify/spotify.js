@@ -14,9 +14,10 @@ const scopes = [
     "user-library-read",
     "user-modify-playback-state",
     "user-read-currently-playing",
+    "user-read-email",
     "user-read-playback-state",
     "user-read-private",
-    "user-read-email"
+    "user-read-recently-played"
 ];
 let accessToken;
 

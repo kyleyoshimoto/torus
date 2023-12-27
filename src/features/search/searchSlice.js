@@ -1,0 +1,67 @@
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import Spotify from "../spotify/spotify";
+
+export const getSearch = createAsyncThunk(
+    'search/getSearch',
+    async (term, type) => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+            const response = await fetch(`https://api.spotify.com/v1/search?q=${term}&limit=25&type=${type}`, {
+                method: 'GET',
+                header: { Authorization: `Bearer ${accessToken}` }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch search results');
+            }
+
+            const jsonResponse = await response.json();
+
+            console.log("Getting search results...");
+
+            return jsonResponse.tracks.items.map(track => ({
+                name: track.name,
+                uri: track.uri,
+                id: track.id,
+                artist: track.artists.map(artist => artist.name).join(", "),
+                album: {
+                    name: track.album.name,
+                    cover: track.album.images[0]?.url
+                },
+                genre: track.artists[0].genres,
+                duration: track.duration_ms
+            }))
+        } catch (error) {
+            console.error('Error getting search results', error);
+            throw error;
+        }
+    }
+);
+
+export const searchSlice = createSlice({
+    name: 'search',
+    initialState: {
+        results: [],
+        loadingResults: false,
+        errorResults: null
+    },
+    extraReducers: {
+        [getSearch.pending]: (state) => {
+            state.loadingResults = true;
+            state.errorResults = null;
+        },
+        [getResults.rejected]: (state, action) => {
+            state.loadingResults = false;
+            state.errorResults = action.error.message;
+        },
+        [getResults.fulfilled]: (state, action) => {
+            state.loadingResults = false;
+            state.errorResults = null;
+            state.results = action.payload;
+        }
+    }
+});
+
+export const selectResults = (state) => state.search.results;
+
+export default searchSlice.reducer;

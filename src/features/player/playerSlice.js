@@ -16,7 +16,7 @@ export const getCurrentlyPlaying = createAsyncThunk(
 
             const jsonResponse = await response.json();
 
-            console.log("Getting currently playing...")
+            console.log("Getting currently playing...");
 
             return {
                 device: {
@@ -70,6 +70,7 @@ export const getQueue = createAsyncThunk(
 
             return jsonResponse.queue.map(track => ({
                 name: track.name,
+                uri: track.uri,
                 id: track.id,
                 artist: track.artists.map(artist => artist.name).join(", "),
                 album: {
@@ -81,6 +82,44 @@ export const getQueue = createAsyncThunk(
             }));
         } catch (error) {
             console.error('Error getching queue.', error);
+            throw error;
+        }
+    }
+);
+
+export const getRecentlyPlayed = createAsyncThunk(
+    'player/getRecentlyPlayed',
+    async (after) => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+            const response = await fetch(`https://api.spotify.com/v1/me/player/recently-played?limit=15&after=${after}`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${accessToken}`}
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch recently played.');
+            }
+
+            const jsonResponse = await response.json();
+            
+            console.log('Successfully obtained recently played');
+
+            return jsonResponse.items.map(item => ({
+                name: item.track.name,
+                uri: item.track.uri,
+                id: item.track.id,
+                artist: item.track.artists.map(artist => artist.name).join(", "),
+                album: {
+                    name: item.track.album.name,
+                    cover: item.track.album.images[0]?.url
+                },
+                genre: item.track.artists[0].genres,
+                duration: item.track.duration_ms
+            }));
+
+        } catch (error) {
+            console.error('Error getting recently played', error);
             throw error;
         }
     }
@@ -236,6 +275,9 @@ export const playerSlice = createSlice({
         queue: [],
         loadingQueue: false,
         errorQueue: null,
+        recentlyPlayed: [],
+        loadingRecentlyPlayed: false,
+        errorRecentlyPlayed: null
     },
     reducers: {
         updateStatus: (state, action) => {
@@ -269,6 +311,19 @@ export const playerSlice = createSlice({
             state.loadingQueue = false;
             state.errorQueue = null;
             state.queue = action.payload;
+        },
+        [getRecentlyPlayed.pending]: (state) => {
+            state.loadingRecentlyPlaying = true;
+            state.errorRecentlyPlayed = null;
+        },
+        [getRecentlyPlayed.rejected]: (state, action) => {
+            state.loadingRecentlyPlayed = false;
+            state.errorRecentlyPlayed = action.error.message;
+        },
+        [getRecentlyPlayed.fulfilled]: (state, action) => {
+            state.loadingRecentlyPlayed = false;
+            state.errorRecentlyPlayed = null;
+            state.recentlyPlayed = action.payload;
         }
     }
 });
@@ -280,5 +335,6 @@ export const selectLoadingCurrentlyPlaying = (state) => state.player.loadingCurr
 export const selectErrorCurrentlyPlaying = (state) => state.player.errorCurrentlyPlaying;
 export const selectIsPlaying = (state) => state.player.isPlaying;
 export const selectQueue = (state) => state.player.queue;
+export const selectRecentlyPlayed = (state) => state.player.recentlyPlayed;
 
 export default playerSlice.reducer;

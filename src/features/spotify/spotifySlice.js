@@ -88,7 +88,7 @@ export const getTopArtists = createAsyncThunk(
             throw new Error(error.message);
         }
     }
-)
+);
 
 export const spotifyProfileSlice = createSlice({
     name: 'spotifyProfile',
