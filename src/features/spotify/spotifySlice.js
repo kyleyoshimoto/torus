@@ -50,9 +50,9 @@ export const getTopTracks = createAsyncThunk(
                 artist: track.artists[0]?.name,
                 album: {
                     name: track.album.name,
+                    cover: track.album.images[0]?.url,
                     id: track.album.id
-                },
-                image: track.album.images[0]?.url || null,
+                }
             }));
 
         } catch (error) {

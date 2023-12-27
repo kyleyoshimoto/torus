@@ -317,7 +317,7 @@ function Player() {
                 <p><SpeakerIcon fontSize='small'/>{currentlyPlaying.device.name}</p>
             </div>
             <div className='track-container'>
-                <img src={currentlyPlaying.track.album.cover} alt="Album Cover" />
+                <img src={currentlyPlaying.track.album.cover[0].url} alt="Album Cover" />
                 <h4>{currentlyPlaying.track.name}</h4>
                 <p className='artist'>{currentlyPlaying.track.artist}</p>
                 <p className='album'>{currentlyPlaying.track.album.name}</p>
@@ -332,14 +332,14 @@ function Player() {
                     max={duration} 
                     id="progress"
                 />
-                <input
+                {/*<input
                     type="range"
                     className='timer-bar'
                     id="timer-bar"
                     min="0"
                     max={duration}
                     onMouseUp={handleSeekToPosition}
-                />
+                />*/}
             </div>
             <div className='player-controls'>
                 <div className='pause-play'>

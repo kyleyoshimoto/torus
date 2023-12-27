@@ -8,6 +8,7 @@ import SearchIcon from '@mui/icons-material/Search';
 function Search() {
     return(
         <div className='search-page'>
+            <h2>Search</h2>
             <div className='search-bar'>
                 <SearchIcon fontSize="large" className='search-icon'/>
                 <input type="text" placeholder="Tracks, Artists, Albums..."></input>

@@ -16,7 +16,7 @@ function Tracklist(props) {
                                 key={track.id}
                                 artist={track.artist}
                                 album={track.album.name}
-                                cover={track.image}
+                                cover={track.album.cover}
                             />
                         </li>
                     )
@@ -34,7 +34,7 @@ function Tracklist(props) {
                         key={track.id}
                         artist={track.artist}
                         album={track.album.name}
-                        cover={track.image}
+                        cover={track.album.cover}
                     />
                 )
             })}

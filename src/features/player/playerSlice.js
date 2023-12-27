@@ -31,9 +31,10 @@ export const getCurrentlyPlaying = createAsyncThunk(
                 track: {
                     name: jsonResponse.item.name,
                     artist: jsonResponse.item.artists.map(artist => artist.name).join(", "),
+                    artistId: jsonResponse.item.artists[0].id,
                     album: {
                         name: jsonResponse.item.album.name,
-                        cover: jsonResponse.item.album.images[0]?.url || null,
+                        cover: jsonResponse.item.album?.images,
                     }
                 },
                 timing: {
@@ -41,6 +42,9 @@ export const getCurrentlyPlaying = createAsyncThunk(
                     progress: jsonResponse.progress_ms,
                     isPlaying: jsonResponse.is_playing
                 },
+                info: {
+                    releaseData: jsonResponse.item.album.relase_date
+                }
             };
         } catch (error) {
             console.error('Error fetching currently playing:', error);
@@ -48,6 +52,42 @@ export const getCurrentlyPlaying = createAsyncThunk(
         }
     }
 );
+
+export const getQueue = createAsyncThunk(
+    'player/getQueue',
+    async () => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+            const response = await fetch(`https://api.spotify.com/v1/me/player/queue`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch queue.');
+            }
+
+            const jsonResponse = await response.json();
+
+            console.log('Successfully obtained queue.');
+
+            return jsonResponse.queue.map(track => ({
+                name: track.name,
+                id: track.id,
+                artist: track.artists.map(artist => artist.name).join(", "),
+                album: {
+                    name: track.album.name,
+                    cover: track.album.images[0]?.url
+                },
+                genre: track.artists[0].genres,
+                duration: track.duration_ms,
+            }));
+        } catch (error) {
+            console.error('Error getching queue.', error);
+            throw error;
+        }
+    }
+)
 
 export const playPause = createAsyncThunk(
     'player/playPause',
@@ -197,6 +237,8 @@ export const playerSlice = createSlice({
         currentlyPlaying: {},
         isPlaying: false,
         queue: [],
+        loadingQueue: false,
+        errorQueue: null,
     },
     reducers: {
         updateStatus: (state, action) => {
@@ -218,6 +260,19 @@ export const playerSlice = createSlice({
             state.currentlyPlaying = action.payload;
             state.isPlaying = action.payload.timing.isPlaying;
         },
+        [getQueue.pending]: (state) => {
+            state.loadingQueue = true;
+            state.errorQueue = null;
+        },
+        [getQueue.rejected]: (state, action) => {
+            state.loadingQueue = false;
+            state.errorQueue = action.error.message
+        },
+        [getQueue.fulfilled]: (state, action) => {
+            state.loadingQueue = false;
+            state.errorQueue = null;
+            state.queue = action.payload;
+        }
     }
 });
 
@@ -227,5 +282,6 @@ export const selectCurrentlyPlaying = (state) => state.player.currentlyPlaying;
 export const selectLoadingCurrentlyPlaying = (state) => state.player.loadingCurrentlyPlaying;
 export const selectErrorCurrentlyPlaying = (state) => state.player.errorCurrentlyPlaying;
 export const selectIsPlaying = (state) => state.player.isPlaying;
+export const selectQueue = (state) => state.player.queue;
 
 export default playerSlice.reducer;
