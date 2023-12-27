@@ -274,7 +274,7 @@ function Player() {
             <div className='player'>
                 <div className='track-container'>
                 <div className='playing-from'>
-                    <p>Play music from Spotify™</p>
+                    <p>Play music from Spotify™ with premium</p>
                 </div>
                 <a href='https://open.spotify.com/?' target='_blank'>
                     <img src={spotifyLogo} alt="Album Cover" className='album-cover'/>

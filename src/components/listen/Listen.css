@@ -11,17 +11,24 @@
 }
 
 .song-info {
-    border: 1px solid red;
+    width: 56vw;
     height: 30vh;
     display: flex;
     align-items: center;
 }
 
+.song-info > h2 {
+    rotate: 270deg;
+    margin: -1rem;
+    font-size: 2rem;
+    color: rgb(153 51 51);
+}
+
 .song-info > img {
     height: 30vh;
     width: 30vh;
-    margin: 4vw;
     margin-right: 1vw;
+    border-radius: 10px;
 }
 
 .song-details {
@@ -46,19 +53,53 @@
     color: gray;
 }
 
-.song-info > .radar-graph {
+.radar-graph {
     border: 1px red solid;
     position: absolute;
     right: 0;
+    top: 8vh;
     height: 30vh;
     width: 25vw;
+    margin: 1rem;
 }
 
-.queue {
-    border: 1px red solid;
-    width: 30vw;
+.queue,
+.breakdown {
+    border: rgb(54, 54, 54) solid;
     margin: 1vw;
     border-radius: 10px;
     background: black;
-    min-height: 55vh;
+    height: 57vh;
+}
+
+.queue {
+    width: 30vw;
+    overflow: hidden;
+}
+
+.queue > h3 {
+    font-size: 2rem;
+    margin: 1rem; 
+}
+
+.breakdown {
+    position: absolute;
+    right: 0;
+    top: 39.5vh;
+    width: 48vw;
+}
+
+.artist-breakdown {
+    display: flex;
+}
+
+.artist-details > h3 {
+    font-size: 2rem;
+}
+
+.artist-breakdown > img {
+    width: 10vw;
+    height: 10vw;
+    margin: 1rem;
+    border-radius: 100%;
 }

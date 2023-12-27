@@ -41,9 +41,6 @@ export const getCurrentlyPlaying = createAsyncThunk(
                     duration: jsonResponse.item.duration_ms,
                     progress: jsonResponse.progress_ms,
                     isPlaying: jsonResponse.is_playing
-                },
-                info: {
-                    releaseData: jsonResponse.item.album.relase_date
                 }
             };
         } catch (error) {
