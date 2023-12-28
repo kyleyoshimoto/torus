@@ -36,3 +36,15 @@
 textarea:focus, input:focus {
     outline: none;
 }
+
+.search-results {
+    position: absolute;
+    bottom: 0;
+    margin: 1rem;
+    height: 65vh;
+    width: 38vw;
+    background: black;
+    border-radius: 10px;
+    overflow: hidden;
+    border: rgb(54, 54, 54) solid;
+}

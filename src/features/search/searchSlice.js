@@ -3,12 +3,13 @@ import Spotify from "../spotify/spotify";
 
 export const getSearch = createAsyncThunk(
     'search/getSearch',
-    async (term, type) => {
+    async (term) => {
         try {
             const accessToken = Spotify.getAccessToken();
-            const response = await fetch(`https://api.spotify.com/v1/search?q=${term}&limit=25&type=${type}`, {
+            const updatedTerm = term.split(' ').join('+');
+            const response = await fetch(`https://api.spotify.com/v1/search?q=${updatedTerm}&limit=25&type=track%2Cartist%2Calbum`, {
                 method: 'GET',
-                header: { Authorization: `Bearer ${accessToken}` }
+                headers: { Authorization: `Bearer ${accessToken}` }
             });
 
             if (!response.ok) {

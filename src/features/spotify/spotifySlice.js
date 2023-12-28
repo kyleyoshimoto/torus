@@ -28,6 +28,35 @@ export const getUserProfile = createAsyncThunk(
     }
   );
 
+export const getUserPlaylists = createAsyncThunk(
+    'spotifyProfile/getUserPlaylists',
+    async () => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+            const response = await fetch('https://api.spotify.com/v1/me/playlists', {
+                headers: { Authorization: `Bearer ${accessToken}` },
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch user playlists.");
+            }
+
+            const jsonResponse = await response.json();
+
+            return jsonResponse.items.map(item => ({
+                name: item.name,
+                id: item.id,
+                href: item.tracks.href,
+                total: item.tracks.total,
+                uri: item.uri,
+                img: item.images[0]
+            }))
+        } catch (error) {
+            throw new Error(error.message);
+        }
+    }
+);
+
 export const getTopTracks = createAsyncThunk(
     'spotifyProfile/getTopTracks',
     async (term = "short_term") => {

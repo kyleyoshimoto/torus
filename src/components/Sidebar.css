@@ -4,6 +4,7 @@
     width: 18vw;
     min-height: 100vh;
     background: black;
+    border-right: rgb(54, 54, 54) solid;
 }
 
 .background-logo {
