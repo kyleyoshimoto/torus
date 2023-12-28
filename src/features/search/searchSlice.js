@@ -50,11 +50,11 @@ export const searchSlice = createSlice({
             state.loadingResults = true;
             state.errorResults = null;
         },
-        [getResults.rejected]: (state, action) => {
+        [getSearch.rejected]: (state, action) => {
             state.loadingResults = false;
             state.errorResults = action.error.message;
         },
-        [getResults.fulfilled]: (state, action) => {
+        [getSearch.fulfilled]: (state, action) => {
             state.loadingResults = false;
             state.errorResults = null;
             state.results = action.payload;
