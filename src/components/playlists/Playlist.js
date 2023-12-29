@@ -1,10 +1,16 @@
 import React from 'react';
 import './Playlist.css';
 
-function Playlist() {
+function Playlist(props) {
+    const { name, img, total } = props;
+    
     return (
         <div className='playlist'>
-            <p>This is a playlist</p>
+            <img src={img} />
+            <div className='playlist-title'>
+                <h3>{name}</h3>
+                <p>{total} Tracks</p>
+            </div>
         </div>
     )
 }

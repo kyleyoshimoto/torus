@@ -1,0 +1,17 @@
+.playlist {
+    display: flex;
+}
+
+.playlist > img {
+    width: 5vw;
+    height: 5vw;
+}
+
+.playlist-title > h3 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.playlist-title > p {
+    margin: 0;
+}

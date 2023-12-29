@@ -49,8 +49,9 @@ export const getUserPlaylists = createAsyncThunk(
                 href: item.tracks.href,
                 total: item.tracks.total,
                 uri: item.uri,
-                img: item.images[0]
-            }))
+                img: item.images[0].url
+            }));
+            
         } catch (error) {
             throw new Error(error.message);
         }
@@ -128,6 +129,9 @@ export const spotifyProfileSlice = createSlice({
         followers: null,
         isLoadingProfile: false,
         failedToLoadProfile: null,
+        playlists: [],
+        loadingPlaylists: false,
+        errorPlaylists: null,
         isLoadingTopTracks: false,
         failedToLoadTopTracks: null,
         topTracks: [],
@@ -182,6 +186,19 @@ export const spotifyProfileSlice = createSlice({
             state.isLoadingTopArtists = false;
             state.failedToLoadTopArtists = null;
             state.topArtists = action.payload;
+        },
+        [getUserPlaylists.pending]: (state) => {
+            state.loadingPlaylists = true;
+            state.errorPlaylists = null;
+        },
+        [getUserPlaylists.rejected]: (state, action) => {
+            state.loadingPlaylists = false;
+            state.errorPlaylists = action.error.message;
+        },
+        [getUserPlaylists.fulfilled]: (state, action) => {
+            state.loadingPlaylists = true;
+            state.errorPlaylists = null;
+            state.playlists = action.payload;
         }
     }
 });
@@ -192,6 +209,7 @@ export const selectAccessToken = (state) => state.spotifyProfile.accessToken;
 export const selectProfile = (state) => state.spotifyProfile.userProfile;
 export const selectDisplayName = (state) => state.spotifyProfile.displayName;
 export const selectProfilePic = (state) => state.spotifyProfile.profilePic;
+export const selectPlaylists = (state) => state.spotifyProfile.playlists;
 export const selectFollowers = (state) => state.spotifyProfile.followers;
 export const selectTopTracks = (state) => state.spotifyProfile.topTracks;
 export const selectTopArtists = (state) => state.spotifyProfile.topArtists;
