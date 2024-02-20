@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './Playlist.css';
 
 function Playlist(props) {
-    const { name, img, total } = props;
+    const { name, img, total, id, onSelection } = props;
+
+    const handleSelection = useCallback(() => {
+        onSelection(id);
+    })
     
     return (
-        <div className='playlist'>
+        <div className='playlist' onClick={handleSelection}>
             <img src={img} />
             <div className='playlist-title'>
                 <h3>{name}</h3>

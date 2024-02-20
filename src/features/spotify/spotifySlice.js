@@ -58,6 +58,39 @@ export const getUserPlaylists = createAsyncThunk(
     }
 );
 
+export const getPlaylistItems = createAsyncThunk(
+    'spotifyProfile/getPlaylistItems',
+    async (id) => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+            const response = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+
+            if (!response.ok) {
+                throw new Error("Failed to fetch playlist items.");
+            }
+
+            const jsonResponse = await response.json();
+
+            return jsonResponse.items.map(item => ({
+                name: item.track.name,
+                uri: item.track.uri,
+                id: item.track.id,
+                artist: item.track.artists.map(artist => artist.name).join(", "),
+                album: {
+                    name: item.track.album.name,
+                    cover: item.track.album.images[0]?.url
+                }
+            }));
+
+        } catch (error) {
+            console.error('Error getting recently played', error);
+            throw error;
+        }
+    }
+)
+
 export const getTopTracks = createAsyncThunk(
     'spotifyProfile/getTopTracks',
     async (term = "short_term") => {
@@ -132,6 +165,9 @@ export const spotifyProfileSlice = createSlice({
         playlists: [],
         loadingPlaylists: false,
         errorPlaylists: null,
+        playlistItems: [],
+        loadingPlaylistItems: false,
+        errorPlaylistItems: null,
         isLoadingTopTracks: false,
         failedToLoadTopTracks: null,
         topTracks: [],
@@ -199,6 +235,19 @@ export const spotifyProfileSlice = createSlice({
             state.loadingPlaylists = true;
             state.errorPlaylists = null;
             state.playlists = action.payload;
+        },
+        [getPlaylistItems.pending]: (state) => {
+            state.loadingPlaylistItems = true;
+            state.errorPlaylistItems = null;
+        },
+        [getPlaylistItems.rejected]: (state, action) => {
+            state.loadingPlaylistItems = false;
+            state.errorPlaylistItems = action.error.message;
+        },
+        [getPlaylistItems.fulfilled]: (state, action) => {
+            state.loadingPlaylistItems = true;
+            state.errorPlaylistItems = null;
+            state.playlistItems = action.payload;
         }
     }
 });
@@ -210,6 +259,7 @@ export const selectProfile = (state) => state.spotifyProfile.userProfile;
 export const selectDisplayName = (state) => state.spotifyProfile.displayName;
 export const selectProfilePic = (state) => state.spotifyProfile.profilePic;
 export const selectPlaylists = (state) => state.spotifyProfile.playlists;
+export const selectPlaylistItems = (state) => state.spotifyProfile.playlistItems;
 export const selectFollowers = (state) => state.spotifyProfile.followers;
 export const selectTopTracks = (state) => state.spotifyProfile.topTracks;
 export const selectTopArtists = (state) => state.spotifyProfile.topArtists;
