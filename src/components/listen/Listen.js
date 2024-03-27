@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import './Listen.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getQueue, selectCurrentlyPlaying, selectQueue } from '../../features/player/playerSlice';
+import { getQueue, selectCurrentlyPlaying, selectQueue, getCurrentArtist, selectCurrentArtist } from '../../features/player/playerSlice';
 import Tracklist from '../tracklist/Tracklist';
 import { selectTopTracks } from '../../features/spotify/spotifySlice';
 
@@ -10,11 +10,15 @@ function Listen() {
     const currentlyPlaying = useSelector(selectCurrentlyPlaying);
     const topSong = useSelector(selectTopTracks);
     const queue = useSelector(selectQueue);
+    const currentArtist = useSelector(selectCurrentArtist);
 
     useEffect(() => {
         dispatch(getQueue());
-        console.log("QUEUE")
+        console.log("QUEUE:");
         console.log(queue);
+        dispatch(getCurrentArtist(currentlyPlaying.track.artistId));
+        console.log("Current Artist:");
+        console.log(currentArtist);
     }, [currentlyPlaying]);
 
     const renderSpotlight = () => {
@@ -50,14 +54,17 @@ function Listen() {
             return (
                 <div className='breakdown'>
                     <div className='artist-breakdown'>
-                        <img src={currentlyPlaying.track.album.cover[0].url} />
+                        <img src={currentArtist.image} />
                         <div className='artist-details'>
-                            <h3>{currentlyPlaying.track.artist}</h3>
-                            <p>Replace with artist details. Genre. Release date.</p>
+                            <h3>{currentArtist.name}</h3>
+                            <p><u>Followers:</u> {currentArtist.followers}</p>
+                            <p><u>Genres:</u><br />{currentArtist.genres}</p>
                         </div>
                     </div>
                     <hr />
                     <div className='track-breakdown'>
+                        <h3>{currentlyPlaying.track.name}</h3>
+                        <h4>{currentlyPlaying.track.album.name}</h4>
                         <p>Replace with track analysis.</p>
                     </div>
                 </div>

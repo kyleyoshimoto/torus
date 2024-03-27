@@ -87,6 +87,40 @@ export const getQueue = createAsyncThunk(
     }
 );
 
+export const getCurrentArtist = createAsyncThunk(
+    'player/getCurrentArtist',
+    async (artistId) => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+            const response = await fetch(`https://api.spotify.com/v1/artists/${artistId}`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch queue.');
+            }
+
+            const jsonResponse = await response.json();
+
+            console.log('Successfully obtained current artist.');
+
+            return {
+                name: jsonResponse.name,
+                uri: jsonResponse.uri,
+                id: jsonResponse.id,
+                followers: jsonResponse.followers.total,
+                genres: jsonResponse.genres.join(" | "),
+                image: jsonResponse.images[0].url,
+            };
+
+        } catch (error) {
+            console.error('Error getching queue.', error);
+            throw error;
+        }
+    }
+);
+
 export const getRecentlyPlayed = createAsyncThunk(
     'player/getRecentlyPlayed',
     async (after) => {
@@ -275,6 +309,9 @@ export const playerSlice = createSlice({
         queue: [],
         loadingQueue: false,
         errorQueue: null,
+        currentArtist: {},
+        loadingCurrentArtist: false,
+        errorCurrentArtist: null,
         recentlyPlayed: [],
         loadingRecentlyPlayed: false,
         errorRecentlyPlayed: null
@@ -312,6 +349,19 @@ export const playerSlice = createSlice({
             state.errorQueue = null;
             state.queue = action.payload;
         },
+        [getCurrentArtist.pending]: (state) => {
+            state.loadingCurrentArtist = true;
+            state.errorCurrentArtist = null;
+        },
+        [getCurrentArtist.rejected]: (state, action) => {
+            state.loadingCurrentArtist = false;
+            state.errorCurrentArtist = action.error.message
+        },
+        [getCurrentArtist.fulfilled]: (state, action) => {
+            state.loadingCurrentArtist = false;
+            state.errorCurrentArtist = null;
+            state.currentArtist = action.payload;
+        },
         [getRecentlyPlayed.pending]: (state) => {
             state.loadingRecentlyPlaying = true;
             state.errorRecentlyPlayed = null;
@@ -335,6 +385,7 @@ export const selectLoadingCurrentlyPlaying = (state) => state.player.loadingCurr
 export const selectErrorCurrentlyPlaying = (state) => state.player.errorCurrentlyPlaying;
 export const selectIsPlaying = (state) => state.player.isPlaying;
 export const selectQueue = (state) => state.player.queue;
+export const selectCurrentArtist = (state) => state.player.currentArtist;
 export const selectRecentlyPlayed = (state) => state.player.recentlyPlayed;
 
 export default playerSlice.reducer;
