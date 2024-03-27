@@ -1,3 +1,17 @@
+# Welcome to Torus
+
+**_NOTE:_** This project is still under development and not yet ready for deployment.
+
+- A React Redux application that consumes data from the Spotify API:
+  - Users can:
+    - Log in to their respective Spotify accounts
+    - Operate a functional mini-player
+    - Search for tracks, artists, and albums
+    - View analytics for playlists, tracks, artists, and personal data
+    - Create and modify existing playlists
+
+More information coming soon. Working on this project daily in my free time. It's been equally fun as is challenging and informative to build.
+
 # Getting Started with Create React App and Redux
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
