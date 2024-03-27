@@ -25,8 +25,8 @@ function Listen() {
                     <img src={currentlyPlaying.track.album.cover[0].url} />
                     <div className='song-details'>
                         <h3>{currentlyPlaying.track.name}</h3>
-                        <h4>{currentlyPlaying.track.artist}</h4>
                         <h5>{currentlyPlaying.track.album.name}</h5>
+                        <h4>{currentlyPlaying.track.artist}</h4>
                     </div>
                 </div>
             )
@@ -52,7 +52,7 @@ function Listen() {
                     <div className='artist-breakdown'>
                         <img src={currentlyPlaying.track.album.cover[0].url} />
                         <div className='artist-details'>
-                            <h3>Replace with artist name & img</h3>
+                            <h3>{currentlyPlaying.track.artist}</h3>
                             <p>Replace with artist details. Genre. Release date.</p>
                         </div>
                     </div>

@@ -18,7 +18,7 @@ function Playlists() {
 
     useEffect(() => {
         dispatch(getUserPlaylists());
-    }, [playlists]);
+    }, []);
 
     const onSelection = useCallback(
         (id) => {
