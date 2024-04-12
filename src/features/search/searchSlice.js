@@ -6,7 +6,11 @@ export const getSearch = createAsyncThunk(
     async (term) => {
         try {
             const accessToken = Spotify.getAccessToken();
+            //const updatedTerm = encodeURIComponent(term);
             const updatedTerm = term.split(' ').join('+');
+
+            console.log(updatedTerm);
+            
             const response = await fetch(`https://api.spotify.com/v1/search?q=${updatedTerm}&limit=25&type=track%2Cartist%2Calbum`, {
                 method: 'GET',
                 headers: { Authorization: `Bearer ${accessToken}` }
@@ -33,7 +37,7 @@ export const getSearch = createAsyncThunk(
                 duration: track.duration_ms
             }))
         } catch (error) {
-            console.error('Error getting search results', error);
+            console.error(`Error getting search results. Search Term: ${updatedTerm}`, error);
             throw error;
         }
     }

@@ -63,8 +63,7 @@ function Listen() {
                     </div>
                     <hr />
                     <div className='track-breakdown'>
-                        <h3>{currentlyPlaying.track.name}</h3>
-                        <h4>{currentlyPlaying.track.album.name}</h4>
+                        <h3>{currentlyPlaying.track.name} | {currentlyPlaying.track.album.name}</h3>
                         <p>Replace with track analysis.</p>
                     </div>
                 </div>

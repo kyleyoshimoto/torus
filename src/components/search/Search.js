@@ -13,12 +13,14 @@ function Search() {
     const dispatch = useDispatch();
     const searchResults = useSelector(selectResults);
 
-    const [searchInput, setSearchInput] = useState("");
-
-    const search = useCallback((event) => {
-        console.log(searchInput);
-        dispatch(getSearch(searchInput, 'tracks'));
-    }, [searchResults]);
+    const handleInputChange = useCallback((event) => {
+        console.log("KEY PRESSED:", event.key);
+        console.log("INPUT VALUE:", event.target.value);
+        if (event.key === 'Enter') {
+            const input = event.target.value;
+            dispatch(getSearch(input));
+        }
+    }, [dispatch]);
 
     return(
         <div className='search-page'>
@@ -28,12 +30,7 @@ function Search() {
                 <input 
                     type="text" 
                     placeholder="Tracks, Artists, Albums..."
-                    onKeyPress={event => {
-                        if (event.key === "Enter") {
-                            search()
-                        }
-                    }}
-                    onChange={event => setSearchInput(event.target.value)}
+                    onKeyDown={handleInputChange}
                 />
             </div>
             <TrackAnalysis />
