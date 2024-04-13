@@ -6,7 +6,6 @@ export const getSearch = createAsyncThunk(
     async (term) => {
         try {
             const accessToken = Spotify.getAccessToken();
-            //const updatedTerm = encodeURIComponent(term);
             const updatedTerm = term.split(' ').join('+');
 
             console.log(updatedTerm);
@@ -43,12 +42,65 @@ export const getSearch = createAsyncThunk(
     }
 );
 
+export const getAttributes = createAsyncThunk(
+    'search/getAttributes',
+    async (ids) => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+
+            console.log(ids);
+            
+            const response = await fetch(`https://api.spotify.com/v1/audio-features?ids=${ids}`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch attribute search results');
+            }
+
+            const jsonResponse = await response.json();
+
+            console.log("Getting attribute search results...");
+
+            const results = {};
+            jsonResponse.audio_features.forEach(feature => {
+                results[feature.id] = {
+                    acousticness: feature.acousticness,
+                    danceability: feature.danceability,
+                    duration_ms: feature.duration_ms,
+                    energy: feature.energy,
+                    instrumentalnesss: feature.instrumentalness,
+                    key: feature.key,
+                    liveness: feature.liveness,
+                    loudness: feature.loudness,
+                    mode: feature.mode,
+                    speechiness: feature.speechiness,
+                    tempo: feature.tempo,
+                    time_signature: feature.time_signature,
+                    track_href: feature.track_href,
+                    type: feature.type,
+                    valence: feature.valence,
+                };
+            });
+
+            return results;
+        } catch (error) {
+            console.error(`Error getting attribute search results. Search Term: ${ids}`, error);
+            throw error;
+        }
+    }
+);
+
 export const searchSlice = createSlice({
     name: 'search',
     initialState: {
         results: [],
         loadingResults: false,
-        errorResults: null
+        errorResults: null,
+        attributes: {},
+        loadingAttributes: false,
+        errorAttributes: null,
     },
     extraReducers: {
         [getSearch.pending]: (state) => {
@@ -63,10 +115,24 @@ export const searchSlice = createSlice({
             state.loadingResults = false;
             state.errorResults = null;
             state.results = action.payload;
+        },
+        [getAttributes.pending]: (state) => {
+            state.loadingAttributes = true;
+            state.errorAttributes = null;
+        },
+        [getAttributes.rejected]: (state,action) => {
+            state.loadingAttributes = false;
+            state.errorResults = action.error.message
+        },
+        [getAttributes.fulfilled]: (state, action) => {
+            state.loadingAttributes = false;
+            state.errorAttributes = null;
+            state.attributes = action.payload;
         }
     }
 });
 
 export const selectResults = (state) => state.search.results;
+export const selectAttributes = (state) => state.search.attributes
 
 export default searchSlice.reducer;

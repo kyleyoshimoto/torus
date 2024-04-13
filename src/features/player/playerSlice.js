@@ -30,6 +30,7 @@ export const getCurrentlyPlaying = createAsyncThunk(
                 },
                 track: {
                     name: jsonResponse.item.name,
+                    id: jsonResponse.item.id,
                     artist: jsonResponse.item.artists.map(artist => artist.name).join(", "),
                     artistId: jsonResponse.item.artists[0].id,
                     album: {
