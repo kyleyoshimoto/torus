@@ -12,11 +12,12 @@ const scopes = [
     "playlist-modify-public",
     "playlist-modify-private",
     "user-library-read",
-    "user-library-modify",
+    "user-modify-playback-state",
     "user-read-currently-playing",
+    "user-read-email",
     "user-read-playback-state",
     "user-read-private",
-    "user-read-email"
+    "user-read-recently-played"
 ];
 let accessToken;
 

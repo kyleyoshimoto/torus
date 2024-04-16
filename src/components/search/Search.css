@@ -1,16 +1,21 @@
 .search-page {
-    min-height: 110vh;
-    width: 80vw;
-    margin-left: 20vw;
-    background: none;
+    position: absolute;
+    right: 0;
+    min-height: 100vh;
+    width: 82vw;
+}
+
+.search-page > h2 {
+    font-size: 3rem;
+    margin: 1vw 3vw;
 }
 
 .search-bar {
     position: absolute;
     width: 30vw;
     height: 3rem;
-    margin-left: 8vw;
-    margin-top: 2.5vh;
+    margin-left: 13vw;
+    top: 2.5vh;
     border: solid;
     border-radius: 30px;
     display: flex;
@@ -30,4 +35,16 @@
 
 textarea:focus, input:focus {
     outline: none;
+}
+
+.search-results {
+    position: absolute;
+    bottom: 0;
+    margin: 1rem;
+    height: 65vh;
+    width: 38vw;
+    background: black;
+    border-radius: 10px;
+    overflow: hidden;
+    border: rgb(54, 54, 54) solid;
 }

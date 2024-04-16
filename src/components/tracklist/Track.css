@@ -1,3 +1,7 @@
+.track > * {
+    border: red solid 1px;
+}
+
 .track {
     display: flex;
     justify-content: flex-start;
@@ -27,4 +31,8 @@
 
 .track-info > h4 {
     font-size: 1.4rem;
+}
+
+.track > .attribute {
+    justify-self: end;
 }

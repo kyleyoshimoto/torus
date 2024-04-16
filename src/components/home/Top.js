@@ -9,14 +9,14 @@ function Top(props) {
                 <h3>Top {subject}</h3>
             </div>
             <div className='top-items'>
-                <img src={items[0]?.image} className='top-item1 top-item' />
-                <img src={items[1]?.image} className='top-item2 top-item' />
-                <img src={items[2]?.image} className='top-item3 top-item' />
+                <img src={items[0]?.image || items[0]?.album.cover} className='top-item1 top-item' />
+                <img src={items[1]?.image || items[1]?.album.cover} className='top-item2 top-item' />
+                <img src={items[2]?.image || items[2]?.album.cover} className='top-item3 top-item' />
             </div>
                 <ol className='rankings'>
-                    <li>{items[0]?.name}</li>
-                    <li>{items[1]?.name}</li>
-                    <li>{items[2]?.name}</li>
+                    <li className='top1'>{items[0]?.name}</li>
+                    <li className='top2'>{items[1]?.name}</li>
+                    <li className='top3'>{items[2]?.name}</li>
                 </ol>
         </div>
     )

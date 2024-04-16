@@ -12,6 +12,9 @@ function Track(props) {
                 <p>{artist}</p>
                 <p>{album}</p>
             </div>
+            <div className='attribute'>
+                <p>Attribute</p>
+            </div>
         </div>
     )
 };

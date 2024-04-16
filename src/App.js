@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import Login from './app/Login';
 import Root from './components/Root';
 import Home from './components/home/Home';
+import Listen from './components/listen/Listen';
 import Search from './components/search/Search';
 import Profile from './components/profile/Profile';
 import Playlists from './components/playlists/Playlists';
@@ -18,6 +19,7 @@ import './App.css';
 const appRouter = createBrowserRouter(createRoutesFromElements(
   <Route path="/" element={ <Root />}>
     <Route index element={ <Home /> } />
+    <Route path="/Listen" element={ <Listen /> } />
     <Route path="/Search" element={ <Search /> } />
     <Route path="/Profile" element={ <Profile /> } />
     <Route path="/Playlists" element={ <Playlists /> } />

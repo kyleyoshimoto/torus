@@ -7,7 +7,8 @@ import './Sidebar.css';
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
 import PersonIcon from '@mui/icons-material/Person';
-import LibraryMusicIcon from '@mui/icons-material/LibraryMusic';
+import MusicNoteIcon from '@mui/icons-material/MusicNote';
+import PlaylistPlayIcon from '@mui/icons-material/PlaylistPlay';
 import ChevronLeftOutlinedIcon from '@mui/icons-material/ChevronLeftOutlined';
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
 
@@ -32,6 +33,10 @@ function Sidebar() {
                     <HomeIcon className='icon' fontSize='large'/>
                     <NavLink to="/" className='navlink'>Home</NavLink>
                 </div>
+                <div className='listen-link link'>
+                    <MusicNoteIcon className='icon' fontSize='large' />
+                    <NavLink to="/Listen" className='navlink'>Listen</NavLink>
+                </div>
                 <div className='search-link link'>
                     <SearchIcon className='icon' fontSize='large'/>
                     <NavLink to="/Search" className='navlink'>Search</NavLink>
@@ -41,7 +46,7 @@ function Sidebar() {
                     <NavLink to="/Profile" className='navlink'>Profile</NavLink>
                 </div>
                 <div className='playlists-link link'>
-                    <LibraryMusicIcon className='icon' fontSize='large'/>
+                    <PlaylistPlayIcon className='icon' fontSize='large'/>
                     <NavLink to="/Playlists" className="navlink">Playlists</NavLink>
                 </div>
             </div>

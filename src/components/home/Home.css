@@ -1,5 +1,5 @@
 .home {
-    min-height: 110vh;
+    min-height: 100vh;
     position: absolute;
     right: 0;
     background: none;
@@ -21,12 +21,17 @@
 .listening-mood {
     border: 1px solid red;
     position: absolute;
-    top: 50vh;
+    top: 48vh;
     margin: 2vh;
     width: 48%;
     min-height: 50vh;
     border-radius: 10px;
     background: black;
+}
+
+.recently-played {
+    height: 50vh;
+    overflow: hidden;
 }
 
 .listening-mood {
