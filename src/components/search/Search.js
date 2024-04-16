@@ -23,6 +23,7 @@ function Search() {
             const input = event.target.value;
             dispatch(getSearch(input))
                 .then(() => {
+                    console.log(searchResults)
                     if (searchResults) {
                         let resultIds = searchResults.map(result => result.id).join("%");
                         console.log(resultIds);

@@ -21,12 +21,12 @@ function Listen() {
     let tempo = "";
     let valence = "";
 
-    if (currentlyPlayingAttributes[CPId]) {
-        danceability = currentlyPlayingAttributes[CPId].danceability;
-        energy = currentlyPlayingAttributes[CPId].energy;
-        loudness = currentlyPlayingAttributes[CPId].loudness;
-        tempo = currentlyPlayingAttributes[CPId].tempo;
-        valence = currentlyPlayingAttributes[CPId].valence;
+    if (currentlyPlayingAttributes) {
+        danceability = currentlyPlayingAttributes.danceability;
+        energy = currentlyPlayingAttributes.energy;
+        loudness = currentlyPlayingAttributes.loudness;
+        tempo = currentlyPlayingAttributes.tempo;
+        valence = currentlyPlayingAttributes.valence;
     } else {
         danceability = "...";
         energy = "...";

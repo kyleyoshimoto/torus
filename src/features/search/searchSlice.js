@@ -50,7 +50,7 @@ export const getAttributes = createAsyncThunk(
 
             console.log(ids);
             
-            const response = await fetch(`https://api.spotify.com/v1/audio-features?ids=${ids}`, {
+            const response = await fetch(`http://localhost:3001/spotify-data?ids=${ids}`, {
                 method: 'GET',
                 headers: { Authorization: `Bearer ${accessToken}` }
             });
@@ -113,26 +113,8 @@ export const getAttribute = createAsyncThunk(
 
             console.log("Getting attribute search results...");
 
-            const id = jsonResponse.audio_features.id;
-            return {
-                id: {
-                    acousticness: jsonResponse.audio_features.acousticness,
-                    danceability: jsonResponse.audio_features.danceability,
-                    duration_ms: jsonResponse.audio_features.duration_ms,
-                    energy: jsonResponse.audio_features.energy,
-                    instrumentalnesss: jsonResponse.audio_features.instrumentalness,
-                    key: jsonResponse.audio_features.key,
-                    liveness: jsonResponse.audio_features.liveness,
-                    loudness: jsonResponse.audio_features.loudness,
-                    mode: jsonResponse.audio_features.mode,
-                    speechiness: jsonResponse.audio_features.speechiness,
-                    tempo: jsonResponse.audio_features.tempo,
-                    time_signature: jsonResponse.audio_features.time_signature,
-                    track_href: jsonResponse.audio_features.track_href,
-                    type: jsonResponse.audio_features.type,
-                    valence: jsonResponse.audio_features.valence,
-                }
-            };
+            return jsonResponse.audio_features[0];
+
         } catch (error) {
             console.error(`Error getting attribute search results. Search Term: ${ids}`, error);
             throw error;
@@ -181,17 +163,17 @@ export const searchSlice = createSlice({
             state.attributes = action.payload;
         },
         [getAttribute.pending]: (state) => {
-            state.loadingAttributes = true;
-            state.errorAttributes = null;
+            state.loadingAttribute = true;
+            state.errorAttribute = null;
         },
         [getAttribute.rejected]: (state,action) => {
-            state.loadingAttributes = false;
-            state.errorResults = action.error.message
+            state.loadingAttribute = false;
+            state.errorAttribute = action.error.message
         },
         [getAttribute.fulfilled]: (state, action) => {
-            state.loadingAttributes = false;
-            state.errorAttributes = null;
-            state.attributes = action.payload;
+            state.loadingAttribute = false;
+            state.errorAttribute = null;
+            state.attribute = action.payload;
         }
     }
 });
