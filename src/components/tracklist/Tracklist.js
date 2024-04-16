@@ -3,7 +3,7 @@ import './Tracklist.css';
 import Track from './Track';
 
 function Tracklist(props) {
-    const { tracks, list } = props;
+    const { tracks, list, attributes } = props;
 
     if (list) {
         return (
@@ -17,6 +17,7 @@ function Tracklist(props) {
                                 artist={track.artist}
                                 album={track.album.name}
                                 cover={track.album.cover}
+                                attributes={attributes?.[track.id] || ""}
                             />
                         </li>
                     )
@@ -35,6 +36,7 @@ function Tracklist(props) {
                         artist={track.artist}
                         album={track.album.name}
                         cover={track.album.cover}
+                        attributes={attributes?.[track.id] || ""}
                     />
                 )
             })}

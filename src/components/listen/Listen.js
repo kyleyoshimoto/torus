@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getQueue, selectCurrentlyPlaying, selectQueue, getCurrentArtist, selectCurrentArtist } from '../../features/player/playerSlice';
 import Tracklist from '../tracklist/Tracklist';
 import { selectTopTracks } from '../../features/spotify/spotifySlice';
-import { selectAttributes, getAttributes } from '../../features/search/searchSlice';
+import { selectAttribute, getAttribute } from '../../features/search/searchSlice';
 
 function Listen() {
     const dispatch = useDispatch();
@@ -14,7 +14,7 @@ function Listen() {
     const queue = useSelector(selectQueue);
     const currentArtist = useSelector(selectCurrentArtist);
 
-    const currentlyPlayingAttributes = useSelector(selectAttributes);
+    const currentlyPlayingAttributes = useSelector(selectAttribute);
     let danceability = "";
     let energy = "";
     let loudness = "";
@@ -26,7 +26,7 @@ function Listen() {
         energy = currentlyPlayingAttributes[CPId].energy;
         loudness = currentlyPlayingAttributes[CPId].loudness;
         tempo = currentlyPlayingAttributes[CPId].tempo;
-        valence = currentlyPlaying.valence;
+        valence = currentlyPlayingAttributes[CPId].valence;
     } else {
         danceability = "...";
         energy = "...";
@@ -42,7 +42,7 @@ function Listen() {
         dispatch(getCurrentArtist(currentlyPlaying.track.artistId));
         console.log("Current Artist:", currentArtist);
 
-        dispatch(getAttributes(CPId));
+        dispatch(getAttribute(CPId));
         console.log(currentlyPlayingAttributes);
     
     }, [currentlyPlaying]);

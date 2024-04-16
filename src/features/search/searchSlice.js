@@ -36,7 +36,7 @@ export const getSearch = createAsyncThunk(
                 duration: track.duration_ms
             }))
         } catch (error) {
-            console.error(`Error getting search results. Search Term: ${updatedTerm}`, error);
+            console.error(`Error getting search results.`, error);
             throw error;
         }
     }
@@ -92,6 +92,54 @@ export const getAttributes = createAsyncThunk(
     }
 );
 
+export const getAttribute = createAsyncThunk(
+    'search/getAttribute',
+    async (ids) => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+
+            console.log(ids);
+            
+            const response = await fetch(`https://api.spotify.com/v1/audio-features?ids=${ids}`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${accessToken}` }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch attribute search results');
+            }
+
+            const jsonResponse = await response.json();
+
+            console.log("Getting attribute search results...");
+
+            const id = jsonResponse.audio_features.id;
+            return {
+                id: {
+                    acousticness: jsonResponse.audio_features.acousticness,
+                    danceability: jsonResponse.audio_features.danceability,
+                    duration_ms: jsonResponse.audio_features.duration_ms,
+                    energy: jsonResponse.audio_features.energy,
+                    instrumentalnesss: jsonResponse.audio_features.instrumentalness,
+                    key: jsonResponse.audio_features.key,
+                    liveness: jsonResponse.audio_features.liveness,
+                    loudness: jsonResponse.audio_features.loudness,
+                    mode: jsonResponse.audio_features.mode,
+                    speechiness: jsonResponse.audio_features.speechiness,
+                    tempo: jsonResponse.audio_features.tempo,
+                    time_signature: jsonResponse.audio_features.time_signature,
+                    track_href: jsonResponse.audio_features.track_href,
+                    type: jsonResponse.audio_features.type,
+                    valence: jsonResponse.audio_features.valence,
+                }
+            };
+        } catch (error) {
+            console.error(`Error getting attribute search results. Search Term: ${ids}`, error);
+            throw error;
+        }
+    }
+);
+
 export const searchSlice = createSlice({
     name: 'search',
     initialState: {
@@ -101,6 +149,9 @@ export const searchSlice = createSlice({
         attributes: {},
         loadingAttributes: false,
         errorAttributes: null,
+        attribute: {},
+        loadingAttribute: false,
+        errorAttribute: null,
     },
     extraReducers: {
         [getSearch.pending]: (state) => {
@@ -128,11 +179,25 @@ export const searchSlice = createSlice({
             state.loadingAttributes = false;
             state.errorAttributes = null;
             state.attributes = action.payload;
+        },
+        [getAttribute.pending]: (state) => {
+            state.loadingAttributes = true;
+            state.errorAttributes = null;
+        },
+        [getAttribute.rejected]: (state,action) => {
+            state.loadingAttributes = false;
+            state.errorResults = action.error.message
+        },
+        [getAttribute.fulfilled]: (state, action) => {
+            state.loadingAttributes = false;
+            state.errorAttributes = null;
+            state.attributes = action.payload;
         }
     }
 });
 
 export const selectResults = (state) => state.search.results;
-export const selectAttributes = (state) => state.search.attributes
+export const selectAttributes = (state) => state.search.attributes;
+export const selectAttribute = (state) => state.search.attribute;
 
 export default searchSlice.reducer;
