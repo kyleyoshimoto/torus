@@ -1,5 +1,7 @@
 # Welcome to Torus
 
+![Application Preview](src/Screenshots/JimiSC.png)
+
 **_NOTE:_** This project is still under development and not yet ready for deployment.
 
 - A React Redux application that consumes data from the Spotify API:
