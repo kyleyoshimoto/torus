@@ -7,6 +7,12 @@
 .track > img {
     width: 4rem;
     height: 4rem;
+    transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+}
+
+.track > img:hover {
+    width: 5rem;
+    height: 5rem;
 }
 
 .track-info {

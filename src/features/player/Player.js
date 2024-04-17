@@ -313,7 +313,7 @@ function Player() {
     return (
         <div className='player'>
             <div className='playing-from'>
-                <p>Currently Playing: </p>
+                <b>Currently Playing: </b>
                 <p><SpeakerIcon fontSize='small'/>{currentlyPlaying.device.name}</p>
             </div>
             <div className='track-container'>

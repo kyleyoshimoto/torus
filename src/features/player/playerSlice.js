@@ -1,6 +1,49 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Spotify from "../spotify/spotify";
 
+export const playSong = createAsyncThunk(
+    'player/playSong',
+    async (songURI) => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+
+            let bodyData;
+            if (Array.isArray(songURI)) {
+                bodyData = {
+                    uris: songURI,
+                    offset: { position: 0 },
+                    position_ms: 0
+                };
+            } else {
+                bodyData = {
+                    context_uri: songURI,
+                    offset: {position: 0},
+                    position_ms: 0
+                };
+            }
+
+            const response = await fetch('https://api.spotify.com/v1/me/player/play', {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(bodyData)
+            });
+
+            if (response.ok) {
+                console.log(`Successfully started playing song with URI: ${songURI}`);
+                return true;
+            } else {
+                throw new Error(`Failed to start playing song with URI: ${songURI}`);
+            }
+        } catch (error) {
+            console.error('Error starting to play song.', error);
+            throw error;
+        }
+    }
+)
+
 export const getCurrentlyPlaying = createAsyncThunk(
     'player/getCurrentlyPlaying',
     async () => {
@@ -16,7 +59,7 @@ export const getCurrentlyPlaying = createAsyncThunk(
 
             const jsonResponse = await response.json();
 
-            console.log("Getting currently playing...");
+            console.log(`Currently Playing: ${jsonResponse}`);
 
             return {
                 device: {
@@ -67,20 +110,21 @@ export const getQueue = createAsyncThunk(
 
             const jsonResponse = await response.json();
 
-            console.log('Successfully obtained queue.');
-
-            return jsonResponse.queue.map(track => ({
-                name: track.name,
-                uri: track.uri,
-                id: track.id,
-                artist: track.artists.map(artist => artist.name).join(", "),
-                album: {
-                    name: track.album.name,
-                    cover: track.album.images[0]?.url
-                },
-                genre: track.artists[0].genres,
-                duration: track.duration_ms,
-            }));
+            return {
+                queueList: jsonResponse.queue.map(track => ({
+                    name: track.name,
+                    uri: track.uri,
+                    id: track.id,
+                    artist: track.artists.map(artist => artist.name).join(", "),
+                    album: {
+                        name: track.album.name,
+                        cover: track.album.images[0]?.url
+                    },
+                    genre: track.artists[0].genres,
+                    duration: track.duration_ms,
+                })),
+                uris: jsonResponse.queue.map(track => (track.uri))
+            }
         } catch (error) {
             console.error('Error getching queue.', error);
             throw error;
@@ -103,8 +147,6 @@ export const getCurrentArtist = createAsyncThunk(
             }
 
             const jsonResponse = await response.json();
-
-            console.log('Successfully obtained current artist.');
 
             return {
                 name: jsonResponse.name,

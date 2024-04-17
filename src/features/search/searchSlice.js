@@ -100,7 +100,7 @@ export const getAttribute = createAsyncThunk(
 
             console.log(ids);
             
-            const response = await fetch(`https://api.spotify.com/v1/audio-features?ids=${ids}`, {
+            const response = await fetch(`https://api.spotify.com/v1/audio-features/${ids}`, {
                 method: 'GET',
                 headers: { Authorization: `Bearer ${accessToken}` }
             });
@@ -113,7 +113,7 @@ export const getAttribute = createAsyncThunk(
 
             console.log("Getting attribute search results...");
 
-            return jsonResponse.audio_features[0];
+            return jsonResponse;
 
         } catch (error) {
             console.error(`Error getting attribute search results. Search Term: ${ids}`, error);

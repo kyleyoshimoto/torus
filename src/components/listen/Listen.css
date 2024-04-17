@@ -131,6 +131,10 @@
     margin: 0;
 }
 
+.track-breakdown > h3 {
+    margin-bottom: 0;
+}
+
 .track-breakdown > .attributes > .attribute > p {
     font-size: 0.9rem;
 }

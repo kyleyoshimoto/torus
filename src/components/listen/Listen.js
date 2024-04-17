@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Listen.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getQueue, selectCurrentlyPlaying, selectQueue, getCurrentArtist, selectCurrentArtist } from '../../features/player/playerSlice';
@@ -10,17 +10,16 @@ import RadarChart from '../radarchart/radarChart';
 function Listen() {
     const dispatch = useDispatch();
     const currentlyPlaying = useSelector(selectCurrentlyPlaying);
+    const [previousCurrentlyPlaying, setPreviouslyCurrentlyPlaying] = useState(null);
     const CPId = currentlyPlaying.track.id;
     const topSong = useSelector(selectTopTracks);
     const queue = useSelector(selectQueue);
     const currentArtist = useSelector(selectCurrentArtist);
 
     const currentlyPlayingAttributes = useSelector(selectAttribute);
-    let danceability;
-    let energy;
-    let loudness;
-    let tempo;
-    let valence;
+    let danceability, energy, loudness, tempo, valence;
+    danceability = energy = loudness = tempo = valence = "...";
+
 
     if (currentlyPlayingAttributes) {
         danceability = currentlyPlayingAttributes.danceability;
@@ -28,30 +27,31 @@ function Listen() {
         loudness = currentlyPlayingAttributes.loudness;
         tempo = currentlyPlayingAttributes.tempo;
         valence = currentlyPlayingAttributes.valence;
-    } else {
-        danceability = "...";
-        energy = "...";
-        loudness = "...";
-        tempo = "...";
-        valence = "...";
-    }
+    };
 
     useEffect(() => {
         dispatch(getQueue());
-
-        dispatch(getCurrentArtist(currentlyPlaying.track.artistId));
-        console.log("Current Artist:", currentArtist);
-
-        dispatch(getAttribute(CPId));
-        console.log(currentlyPlayingAttributes);
-    
+        if (currentlyPlaying && !previousCurrentlyPlaying) {
+            console.log("FIRST SONG")
+            dispatch(getCurrentArtist(currentlyPlaying.track.artistId));
+            dispatch(getAttribute(CPId))
+            console.log("Current Artist:", currentArtist);
+            console.log("Current Attributes:", currentlyPlayingAttributes);
+        } else if (currentlyPlaying && previousCurrentlyPlaying && currentlyPlaying.track.id !== previousCurrentlyPlaying.track.id) {
+            console.log('NOT FIRST SONG')
+            dispatch(getCurrentArtist(currentlyPlaying.track.artistId));
+            dispatch(getAttribute(CPId));
+            console.log("Current Artist:", currentArtist);
+            console.log("Current Attributes:", currentlyPlayingAttributes);
+        }
+        setPreviouslyCurrentlyPlaying(currentlyPlaying);
     }, [currentlyPlaying]);
 
     const normalize = (value, minMax) => {
         return ((value - minMax[0]) / (minMax[1] - minMax[0])) * 100;
     };
 
-    const loudnessMinMax = [-40, 0];
+    const loudnessMinMax = [-25, 0];
     const tempoMinMax = [25, 200];
 
     const normalizedData = [
@@ -62,13 +62,11 @@ function Listen() {
         currentlyPlayingAttributes.valence * 100
     ];
 
-    console.log(normalizedData)
-
     const radarChartData = {
         labels: ['Danceability', 'Energy', 'Loudness', 'Tempo', 'Valence'],
         datasets: [
             {
-                label: 'Currently Playing Attributes',
+                label: 'Currently Playing Attributes (Normalized)',
                 data: normalizedData,
                 backgroundColor: 'rgba(128, 0, 0, 0.7)',
                 borderWidth: 1,
@@ -105,10 +103,13 @@ function Listen() {
 
     const renderBreakdown = () => {
         if (currentlyPlaying && danceability !== "" && currentArtist && currentArtist.genres) {
-            console.log(currentArtist.genres)
-            const genresList = currentArtist.genres.map((genre, index) => (
-                <li key={index}>{genre.charAt(0).toUpperCase() + genre.slice(1)}</li>
-            ));
+            const genresList = currentArtist.genres.map((genre, index) => {
+                const capitalizedGenres = genre
+                    .split(" ")
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(" ");
+                return <li key={index}>{capitalizedGenres}</li>
+            });
 
             const formattedNumber = currentArtist.followers.toLocaleString();
 
@@ -125,7 +126,8 @@ function Listen() {
                     </div>
                     <hr />
                     <div className='track-breakdown'>
-                        <h3>{currentlyPlaying.track.name} | {currentlyPlaying.track.album.name}</h3>
+                        <h3>{currentlyPlaying.track.name} - {currentlyPlaying.track.album.name}</h3>
+                        <hr />
                         <div className='attributes'>
                             <div className='attribute'>
                                 <h4>Danceability: {(danceability * 100).toFixed(1)}</h4>
@@ -172,7 +174,7 @@ function Listen() {
                 <hr />
                 {currentlyPlaying ?
                 <Tracklist
-                    tracks={queue}
+                    tracks={queue.queueList}
                 />
                 :
                 <p>Play music with spotify premium.</p>

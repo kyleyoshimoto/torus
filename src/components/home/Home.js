@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { selectTopTracks, selectTopArtists } from '../../features/spotify/spotifySlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Top from './Top';
 import './Home.css';
-import { getRecentlyPlayed, selectRecentlyPlayed } from '../../features/player/playerSlice';
+import { getQueue, getRecentlyPlayed, selectCurrentlyPlaying, selectRecentlyPlayed } from '../../features/player/playerSlice';
 import Tracklist from '../tracklist/Tracklist';
 
 function Home() {
@@ -11,6 +11,8 @@ function Home() {
     const topTracks = useSelector(selectTopTracks);
     const topArtists = useSelector(selectTopArtists);
     const recentlyPlayed = useSelector(selectRecentlyPlayed);
+    const currentlyPlaying = useSelector(selectCurrentlyPlaying);
+    const [triggerCount, setTriggerCount] = useState(0);
 
     const oneWeek = 7 * 24 * 60 * 60 * 1000;
     const currentTime = new Date().getTime();
@@ -18,9 +20,16 @@ function Home() {
 
     useEffect(() => {
         dispatch(getRecentlyPlayed(oneWeekBefore));
-        console.log('recently played');
-        console.log(recentlyPlayed);
+        console.log('Recently Played:', recentlyPlayed);
     }, []);
+
+    useEffect(() => {
+        if (triggerCount % 3 === 0) {
+            dispatch(getQueue());
+            console.log("Getting Queue...")
+        }
+        setTriggerCount(prevCount => prevCount + 1);
+    }, [currentlyPlaying]);
 
     return (
         <div className="home">
