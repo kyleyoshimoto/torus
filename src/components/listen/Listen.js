@@ -5,6 +5,7 @@ import { getQueue, selectCurrentlyPlaying, selectQueue, getCurrentArtist, select
 import Tracklist from '../tracklist/Tracklist';
 import { selectTopTracks } from '../../features/spotify/spotifySlice';
 import { selectAttribute, getAttribute } from '../../features/search/searchSlice';
+import RadarChart from '../radarchart/radarChart';
 
 function Listen() {
     const dispatch = useDispatch();
@@ -15,18 +16,18 @@ function Listen() {
     const currentArtist = useSelector(selectCurrentArtist);
 
     const currentlyPlayingAttributes = useSelector(selectAttribute);
-    let danceability = "";
-    let energy = "";
-    let loudness = "";
-    let tempo = "";
-    let valence = "";
+    let danceability;
+    let energy;
+    let loudness;
+    let tempo;
+    let valence;
 
-    if (currentlyPlayingAttributes[CPId]) {
-        danceability = currentlyPlayingAttributes[CPId].danceability;
-        energy = currentlyPlayingAttributes[CPId].energy;
-        loudness = currentlyPlayingAttributes[CPId].loudness;
-        tempo = currentlyPlayingAttributes[CPId].tempo;
-        valence = currentlyPlayingAttributes[CPId].valence;
+    if (currentlyPlayingAttributes) {
+        danceability = currentlyPlayingAttributes.danceability;
+        energy = currentlyPlayingAttributes.energy;
+        loudness = currentlyPlayingAttributes.loudness;
+        tempo = currentlyPlayingAttributes.tempo;
+        valence = currentlyPlayingAttributes.valence;
     } else {
         danceability = "...";
         energy = "...";
@@ -37,8 +38,7 @@ function Listen() {
 
     useEffect(() => {
         dispatch(getQueue());
-        console.log("QUEUE:");
-        console.log(queue);
+
         dispatch(getCurrentArtist(currentlyPlaying.track.artistId));
         console.log("Current Artist:", currentArtist);
 
@@ -46,6 +46,35 @@ function Listen() {
         console.log(currentlyPlayingAttributes);
     
     }, [currentlyPlaying]);
+
+    const normalize = (value, minMax) => {
+        return ((value - minMax[0]) / (minMax[1] - minMax[0])) * 100;
+    };
+
+    const loudnessMinMax = [-40, 0];
+    const tempoMinMax = [25, 200];
+
+    const normalizedData = [
+        currentlyPlayingAttributes.danceability * 100,
+        currentlyPlayingAttributes.energy * 100,
+        normalize(currentlyPlayingAttributes.loudness, loudnessMinMax),
+        normalize(currentlyPlayingAttributes.tempo, tempoMinMax),
+        currentlyPlayingAttributes.valence * 100
+    ];
+
+    console.log(normalizedData)
+
+    const radarChartData = {
+        labels: ['Danceability', 'Energy', 'Loudness', 'Tempo', 'Valence'],
+        datasets: [
+            {
+                label: 'Currently Playing Attributes',
+                data: normalizedData,
+                backgroundColor: 'rgba(128, 0, 0, 0.7)',
+                borderWidth: 1,
+            },
+        ],
+    };
 
     const renderSpotlight = () => {
         if (currentlyPlaying) {
@@ -75,40 +104,48 @@ function Listen() {
     } 
 
     const renderBreakdown = () => {
-        if (currentlyPlaying && danceability !== "") {
+        if (currentlyPlaying && danceability !== "" && currentArtist && currentArtist.genres) {
+            console.log(currentArtist.genres)
+            const genresList = currentArtist.genres.map((genre, index) => (
+                <li key={index}>{genre.charAt(0).toUpperCase() + genre.slice(1)}</li>
+            ));
+
+            const formattedNumber = currentArtist.followers.toLocaleString();
+
             return (
                 <div className='breakdown'>
                     <div className='artist-breakdown'>
                         <img src={currentArtist.image} />
                         <div className='artist-details'>
                             <h3>{currentArtist.name}</h3>
-                            <p><u>Followers:</u> {currentArtist.followers}</p>
-                            <p><u>Genres:</u><br />{currentArtist.genres}</p>
+                            <p><b>Followers</b>:<br /> {formattedNumber}</p>
+                            <p><b>Genres</b>:</p>
+                            <ul>{genresList}</ul>
                         </div>
                     </div>
                     <hr />
                     <div className='track-breakdown'>
                         <h3>{currentlyPlaying.track.name} | {currentlyPlaying.track.album.name}</h3>
                         <div className='attributes'>
-                            <div className='danceability'>
-                                <h4>Danceability: {danceability}</h4>
-                                <p>Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0.0 is least danceable and 1.0 is most danceable.</p>
+                            <div className='attribute'>
+                                <h4>Danceability: {(danceability * 100).toFixed(1)}</h4>
+                                <p>Danceability describes how suitable a track is for dancing based on a combination of musical elements including tempo, rhythm stability, beat strength, and overall regularity. A value of 0 is least danceable and 100 is most danceable.</p>
                             </div>
-                            <div className='energy'>
-                                <h4>Energy: {energy}</h4>
-                                <p>Energy is a measure from 0.0 to 1.0 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.</p>
+                            <div className='attribute'>
+                                <h4>Energy: {(energy * 100).toFixed(1)}</h4>
+                                <p>Energy is a measure from 0 to 100 and represents a perceptual measure of intensity and activity. Typically, energetic tracks feel fast, loud, and noisy. Perceptual features contributing to this attribute include dynamic range, perceived loudness, timbre, onset rate, and general entropy.</p>
                             </div>
-                            <div className='loudness'>
+                            <div className='attribute'>
                                 <h4>Loudness: {loudness} db</h4>
                                 <p>The overall loudness of a track in decibels (dB). Loudness values are averaged across the entire track and are useful for comparing relative loudness of tracks. Loudness is the quality of a sound that is the primary psychological correlate of physical strength (amplitude). Values typically range between -60 and 0 db.</p>
                             </div>
-                            <div className='tempo'>
+                            <div className='attribute'>
                                 <h4>Tempo: {tempo} bpm</h4>
-                                <p>The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration.</p>
+                                <p>The overall estimated tempo of a track in beats per minute (BPM). In musical terminology, tempo is the speed or pace of a given piece and derives directly from the average beat duration. Estimates are more accurate for electronic and similar genres or songs with a consistent beat.</p>
                             </div>
-                            <div className='valence'>
-                                <h4>Valence: {valence}</h4>
-                                <p>A measure from 0.0 to 1.0 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).</p>
+                            <div className='attribute'>
+                                <h4>Valence: {(valence * 100).toFixed(1)}</h4>
+                                <p>A measure from 0 to 100 describing the musical positiveness conveyed by a track. Tracks with high valence sound more positive (e.g. happy, cheerful, euphoric), while tracks with low valence sound more negative (e.g. sad, depressed, angry).</p>
                             </div>
                         </div>
                     </div>
@@ -126,7 +163,9 @@ function Listen() {
             <h2>Listen</h2>
             {renderSpotlight()}
             <div className='radar-graph'>
-                <p>Radar-Graph</p>
+                <RadarChart
+                    data={radarChartData}
+                />
             </div>
             <div className='queue'>
                 <h3>Queue</h3>
@@ -134,7 +173,6 @@ function Listen() {
                 {currentlyPlaying ?
                 <Tracklist
                     tracks={queue}
-                    list={true}
                 />
                 :
                 <p>Play music with spotify premium.</p>

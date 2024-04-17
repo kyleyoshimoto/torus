@@ -1,7 +1,3 @@
-.track > * {
-    border: red solid 1px;
-}
-
 .track {
     display: flex;
     justify-content: flex-start;
@@ -34,5 +30,6 @@
 }
 
 .track > .attribute {
-    justify-self: end;
+    margin-left: auto;
+    margin-right: 7px;
 }

@@ -111,7 +111,7 @@ export const getCurrentArtist = createAsyncThunk(
                 uri: jsonResponse.uri,
                 id: jsonResponse.id,
                 followers: jsonResponse.followers.total,
-                genres: jsonResponse.genres.join(" | "),
+                genres: jsonResponse.genres,
                 image: jsonResponse.images[0].url,
             };
 
