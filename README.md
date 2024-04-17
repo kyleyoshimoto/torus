@@ -20,7 +20,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
-In the project directory, you can run:
+After downloading the zip, by clicking the blue "code" button in the upper right corner... In the project directory, you can run:
 
 ### `npm start`
 
