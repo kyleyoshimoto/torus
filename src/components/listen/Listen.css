@@ -54,13 +54,16 @@
 }
 
 .radar-graph {
-    border: 1px red solid;
+    background: rgba(0, 0, 0, 0.655);
     position: absolute;
     right: 0;
-    top: 8vh;
-    height: 30vh;
-    width: 25vw;
+    top: 0;
+    height: 39vh;
+    width: 28vw;
     margin: 1rem;
+    display: flex;
+    justify-content: center;
+    border-radius: 20px;
 }
 
 .queue,
@@ -87,14 +90,19 @@
     right: 0;
     top: 39.5vh;
     width: 48vw;
+    display: flex;
+    justify-content: flex-start;
 }
 
 .artist-breakdown {
+    align-self: flex-start;
     display: flex;
+    flex-direction: column;
 }
 
 .artist-details > h3 {
     font-size: 2rem;
+    margin: 0.5rem;
 }
 
 .artist-breakdown > img {
@@ -102,4 +110,27 @@
     height: 10vw;
     margin: 1rem;
     border-radius: 100%;
+    border: 3px solid white;
+}
+
+.artist-details > p {
+    margin: 0.5rem;
+}
+
+.artist-details > ul {
+    margin: 0 18px;
+    padding-left: 10px;
+}
+
+.track-breakdown {
+    margin: 0 1rem;
+    overflow: scroll;
+}
+
+.track-breakdown > .attributes > .attribute > h4 {
+    margin: 0;
+}
+
+.track-breakdown > .attributes > .attribute > p {
+    font-size: 0.9rem;
 }
