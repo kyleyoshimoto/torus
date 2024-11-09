@@ -7,12 +7,26 @@ import { getQueue, getRecentlyPlayed, selectCurrentlyPlaying, selectRecentlyPlay
 import Tracklist from '../tracklist/Tracklist';
 import { getAttributes, selectAttributes } from '../../features/search/searchSlice';
 import RadarChart from '../radarchart/radarChart';
+import { normalizeAttributes } from '../radarchart/nomalizeUtils';
 
 function Home() {
     const dispatch = useDispatch();
 
     // Define state for attribute means
     const [attributeMeans, setAttributeMeans] = useState(null);
+    const normalizedAttributeMeans = attributeMeans ? normalizeAttributes(attributeMeans) : '';
+
+    const radarChartData = {
+        labels: ['Danceability', 'Energy', 'Loudness', 'Tempo', 'Valence'],
+        datasets: [
+            {
+                label: 'Recently Played Attributes (Normalized and Aggregated)',
+                data: normalizedAttributeMeans,
+                backgroundColor: 'rgba(128, 0, 0, 0.7)',
+                borderWidth: 1,
+            },
+        ],
+    };
 
     // Fetch user's top tracks and top artists from the Redux store
     const topTracks = useSelector(selectTopTracks);
@@ -101,6 +115,9 @@ function Home() {
             <div className='listening-mood'>
                 <h3>Listening Behavior</h3>
                 <hr />
+                <RadarChart
+                    data={radarChartData}
+                />
             </div>
         </div>
     )
