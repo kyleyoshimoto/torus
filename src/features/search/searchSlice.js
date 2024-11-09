@@ -47,10 +47,10 @@ export const getAttributes = createAsyncThunk(
     async (ids) => {
         try {
             const accessToken = Spotify.getAccessToken();
-
+            console.log("-------");
             console.log(ids);
             
-            const response = await fetch(`http://localhost:3001/spotify-data?ids=${ids}`, {
+            const response = await fetch(`https://api.spotify.com/v1/audio-features?ids=${ids}`, {
                 method: 'GET',
                 headers: { Authorization: `Bearer ${accessToken}` }
             });

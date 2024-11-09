@@ -19,7 +19,7 @@
 
 .recently-played,
 .listening-mood {
-    border: 1px solid red;
+    border: rgb(54, 54, 54) solid;
     position: absolute;
     top: 48vh;
     margin: 2vh;
