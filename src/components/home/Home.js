@@ -108,16 +108,23 @@ function Home() {
             <div className='recently-played'>
                 <h3>Recently Played</h3>
                 <hr />
-                <Tracklist tracks={recentlyPlayed} list={false} />
+                <Tracklist tracks={recentlyPlayed ? [...recentlyPlayed].reverse() : []} list={false} />
             </div>
 
             {/* Section for displaying listening mood or attributes (to be expanded as needed) */}
             <div className='listening-mood'>
-                <h3>Listening Behavior</h3>
-                <hr />
-                <RadarChart
-                    data={radarChartData}
-                />
+                <div className='mood-title' >
+                    <h3>Listening Behavior</h3>
+                    <hr />
+                </div>
+                <div className='moodRadarChart'>
+                    <RadarChart
+                        data={radarChartData}
+                    />
+                    <p>
+                    The Aggregate Attribute Data Chart displays key audio features from recently played tracks, normalized and aggregated for comparison. It covers five attributes: Danceability, Energy, Loudness, Tempo, and Valence, each normalized to a 0-100 range. The chart provides insights into your listening behavior by showing the average values of these features across recent tracks, helping to highlight your musical preferences and patterns.
+                    </p>
+                </div>
             </div>
         </div>
     )
