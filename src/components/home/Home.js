@@ -6,6 +6,7 @@ import './Home.css';
 import { getQueue, getRecentlyPlayed, selectCurrentlyPlaying, selectRecentlyPlayed } from '../../features/player/playerSlice';
 import Tracklist from '../tracklist/Tracklist';
 import { getAttributes, selectAttributes } from '../../features/search/searchSlice';
+import RadarChart from '../radarchart/radarChart';
 
 function Home() {
     const dispatch = useDispatch();

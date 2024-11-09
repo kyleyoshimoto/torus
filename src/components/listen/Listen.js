@@ -6,6 +6,7 @@ import Tracklist from '../tracklist/Tracklist';
 import { selectTopTracks } from '../../features/spotify/spotifySlice';
 import { selectAttribute, getAttribute } from '../../features/search/searchSlice';
 import RadarChart from '../radarchart/radarChart';
+import { normalizeAttributes } from '../radarchart/nomalizeUtils';
 
 function Listen() {
     const dispatch = useDispatch();
@@ -47,27 +48,14 @@ function Listen() {
         setPreviouslyCurrentlyPlaying(currentlyPlaying);
     }, [currentlyPlaying]);
 
-    const normalize = (value, minMax) => {
-        return ((value - minMax[0]) / (minMax[1] - minMax[0])) * 100;
-    };
-
-    const loudnessMinMax = [-25, 0];
-    const tempoMinMax = [25, 200];
-
-    const normalizedData = [
-        currentlyPlayingAttributes.danceability * 100,
-        currentlyPlayingAttributes.energy * 100,
-        normalize(currentlyPlayingAttributes.loudness, loudnessMinMax),
-        normalize(currentlyPlayingAttributes.tempo, tempoMinMax),
-        currentlyPlayingAttributes.valence * 100
-    ];
+    const normalizedAttributes = normalizeAttributes(currentlyPlayingAttributes);
 
     const radarChartData = {
         labels: ['Danceability', 'Energy', 'Loudness', 'Tempo', 'Valence'],
         datasets: [
             {
                 label: 'Currently Playing Attributes (Normalized)',
-                data: normalizedData,
+                data: normalizedAttributes,
                 backgroundColor: 'rgba(128, 0, 0, 0.7)',
                 borderWidth: 1,
             },
