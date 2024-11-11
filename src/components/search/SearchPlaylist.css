@@ -1,0 +1,20 @@
+.search-playlist-analysis {
+    border: greenyellow solid 1px;
+    height: 43vh;
+    border-radius: 10px;
+    background: black;
+    overflow: hidden;
+    border: rgb(54, 54, 54) solid;
+    margin-top: 8px;
+    display: flex;
+}
+
+.search-graph {
+    border: red solid 1px;
+    width: 50%;
+}
+
+.search-analysis {
+    border: red solid 1px;
+    width: 50%;
+}

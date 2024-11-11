@@ -7,7 +7,9 @@
 }
 
 .make-playlist > .playlist {
+    min-height: 44vh;
     background: black;
     border-radius: 10px;
-    min-height: 46vh;
+    overflow: hidden;
+    border: rgb(54, 54, 54) solid;
 }

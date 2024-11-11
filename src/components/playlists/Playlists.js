@@ -55,6 +55,7 @@ function Playlists() {
                     return (
                         <Playlist
                             name={playlist.name}
+                            uri={playlist.uri}
                             img={playlist.img}
                             total={playlist.total}
                             id={playlist.id}

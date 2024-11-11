@@ -5,11 +5,23 @@
 .playlist > img {
     width: 5vw;
     height: 5vw;
+    transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+}
+
+.playlist > img:hover {
+    width: 6vw;
+    height: 6vw;
 }
 
 .playlist-title > h3 {
     font-size: 2rem;
     margin: 0;
+    color: white;
+    transition: color 0.3s ease;
+}
+
+.playlist-title:hover > h3 {
+    color: #A52A2A;
 }
 
 .playlist-title > p {

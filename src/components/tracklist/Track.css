@@ -7,6 +7,12 @@
 .track > img {
     width: 4rem;
     height: 4rem;
+    transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+}
+
+.track > img:hover {
+    width: 5rem;
+    height: 5rem;
 }
 
 .track-info {
@@ -29,7 +35,21 @@
     font-size: 1.4rem;
 }
 
-.track > .attribute {
+.track > .icon {
+    margin-right: 8px;
+    margin-top: 14px;
+}
+
+.track > .track-attributes {
+    display: flex;
+    flex-direction: column;
     margin-left: auto;
     margin-right: 7px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.track-attributes > .attribute-t,
+.track-attributes > .attribute-value {
+    margin: 0;
 }

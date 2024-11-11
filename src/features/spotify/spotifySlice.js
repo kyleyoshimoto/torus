@@ -109,6 +109,7 @@ export const getTopTracks = createAsyncThunk(
 
             return jsonResponse.items.map(track => ({
                 name: track.name,
+                uri: track.uri,
                 id: track.id,
                 artist: track.artists[0]?.name,
                 album: {
@@ -142,6 +143,7 @@ export const getTopArtists = createAsyncThunk(
 
             return jsonResponse.items.map(artist => ({
                 name: artist.name,
+                uri: artist.uri,
                 id: artist.id,
                 genre: artist.genres,
                 image: artist.images[0]?.url

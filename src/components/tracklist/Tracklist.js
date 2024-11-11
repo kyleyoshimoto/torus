@@ -1,9 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Tracklist.css';
 import Track from './Track';
 
 function Tracklist(props) {
-    const { tracks, list, attributes } = props;
+    const { tracks, list, attributeType, attributes } = props;
+
+    console.log("ATTRIBUTES:",attributes)
+    console.log("TRACK IDS",tracks)
+
+    if(!tracks) {
+        return <h1>Loading...</h1>
+    }
 
     if (list) {
         return (
@@ -12,11 +19,13 @@ function Tracklist(props) {
                     return (
                         <li>
                             <Track
+                                uri={track.uri}
                                 name={track.name}
                                 key={track.id}
                                 artist={track.artist}
                                 album={track.album.name}
                                 cover={track.album.cover}
+                                attributeType={attributeType}
                                 attributes={attributes?.[track.id] || ""}
                             />
                         </li>
@@ -31,11 +40,13 @@ function Tracklist(props) {
             {tracks.map((track) => {
                 return (
                     <Track
+                        uri={track.uri}
                         name={track.name}
                         key={track.id}
                         artist={track.artist}
                         album={track.album.name}
                         cover={track.album.cover}
+                        attributeType={attributeType}
                         attributes={attributes?.[track.id] || ""}
                     />
                 )
