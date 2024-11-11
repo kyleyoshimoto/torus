@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Tracklist.css';
 import Track from './Track';
 
 function Tracklist(props) {
-    const { tracks, list, attributes } = props;
+    const { tracks, list, attributeType, attributes } = props;
+
+    console.log("ATTRIBUTES:",attributes)
+    console.log("TRACK IDS",tracks)
 
     if(!tracks) {
         return <h1>Loading...</h1>
@@ -22,7 +25,8 @@ function Tracklist(props) {
                                 artist={track.artist}
                                 album={track.album.name}
                                 cover={track.album.cover}
-                                //attributes={attributes?.[track.id] || ""}
+                                attributeType={attributeType}
+                                attributes={attributes?.[track.id] || ""}
                             />
                         </li>
                     )
@@ -42,7 +46,8 @@ function Tracklist(props) {
                         artist={track.artist}
                         album={track.album.name}
                         cover={track.album.cover}
-                        //attributes={attributes?.[track.id] || ""}
+                        attributeType={attributeType}
+                        attributes={attributes?.[track.id] || ""}
                     />
                 )
             })}
