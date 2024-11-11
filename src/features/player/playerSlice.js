@@ -182,25 +182,27 @@ export const getRecentlyPlayed = createAsyncThunk(
             
             console.log('Successfully obtained recently played');
 
-            return jsonResponse.items.map(item => ({
-                name: item.track.name,
-                uri: item.track.uri,
-                id: item.track.id,
-                artist: item.track.artists.map(artist => artist.name).join(", "),
-                album: {
-                    name: item.track.album.name,
-                    cover: item.track.album.images[0]?.url
-                },
-                genre: item.track.artists[0].genres,
-                duration: item.track.duration_ms
-            }));
+            return jsonResponse.items
+                .map(item => ({
+                    name: item.track.name,
+                    uri: item.track.uri,
+                    id: item.track.id,
+                    artist: item.track.artists.map(artist => artist.name).join(", "),
+                    album: {
+                        name: item.track.album.name,
+                        cover: item.track.album.images[0]?.url
+                    },
+                    genre: item.track.artists[0].genres,
+                    duration: item.track.duration_ms
+                }))
+                .reverse(); // Reverses the order of the list
 
         } catch (error) {
             console.error('Error getting recently played', error);
             throw error;
         }
     }
-)
+);
 
 export const playPause = createAsyncThunk(
     'player/playPause',
