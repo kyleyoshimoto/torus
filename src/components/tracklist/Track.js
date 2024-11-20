@@ -20,6 +20,10 @@ function Track(props) {
         }
     };
 
+    const handleAddSong = () => {
+        dispatch()
+    }
+
     if (attributeType) {
         return (
         <div className='track' key={key}>
@@ -33,7 +37,7 @@ function Track(props) {
                 <p className='attribute-t'>{attributeType ? attributeType.toUpperCase() : ""}</p>
                 <p className='attribute-value'>{attributes[attributeType]}</p>
             </div>
-            <PlaylistAddIcon className='icon' fontSize='large'/>
+            <PlaylistAddIcon className='icon' fontSize='large' onClick={handleAddSong}/>
         </div>
         )
     }
