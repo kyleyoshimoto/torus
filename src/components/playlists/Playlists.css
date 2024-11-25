@@ -10,11 +10,17 @@
     border: solid rgb(55, 55, 55);
     top: 16vh;
     margin: 3vh;
-    width: 40%;
+    width: 48%;
     height: 80vh;
     background: black;
     border-radius: 10px;
     overflow: scroll;
+}
+
+.attributeBar {
+    position: absolute;
+    top: 5vh;
+    right: 40vw;
 }
 
 

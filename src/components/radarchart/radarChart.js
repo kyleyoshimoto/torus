@@ -6,6 +6,9 @@ const RadarChart = ({ data }) => {
   const chartRef = useRef(null);
   const chartInstanceRef = useRef(null);
 
+  console.log("DATA");
+  console.log(data);
+
   useEffect(() => {
     if (chartInstanceRef.current) {
       chartInstanceRef.current.destroy();

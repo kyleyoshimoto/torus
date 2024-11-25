@@ -9,17 +9,30 @@ import Tracklist from '../tracklist/Tracklist';
 
 import './Playlists.css';
 import CloseIcon from '@mui/icons-material/Close';
+import { getAttributes, selectAttributes } from '../../features/search/searchSlice';
+import TrackAnalysis from '../search/TrackAnalysis';
 
 function Playlists() {
     const [selectedPlaylist, selectPlaylist] = useState(null);
     const [selectedPlaylistName, selectPlaylistName] = useState(null);
+    const [attributeType, setAttributeType] = useState("danceability");
     const dispatch = useDispatch();
     const playlists = useSelector(selectPlaylists);
     const playlistItems = useSelector(selectPlaylistItems);
+    const playlistAttributes = useSelector(selectAttributes);
 
     useEffect(() => {
         dispatch(getUserPlaylists());
+        console.log("Dispatching getUserPlaylists");
     }, []);
+
+    useEffect(() => {
+        if (playlistItems && playlistItems.length > 0) {
+            const playlistIds = playlistItems.map(item => item.id).join(",");
+            dispatch(getAttributes(playlistIds));
+            console.log("Dispatching getAttributes...");
+        }
+    }, [dispatch, playlistItems]);
 
     const onSelection = useCallback(
         (id, name) => {
@@ -36,6 +49,11 @@ function Playlists() {
         }, [selectPlaylists]
     );
 
+    const handleAttributeTypeChange = useCallback((type) => {
+        setAttributeType(type);
+        console.log("Handle attribute type change:" , type);
+    })
+
     const renderPlaylists = () => {
         if (selectedPlaylist) {
             return (
@@ -47,6 +65,8 @@ function Playlists() {
                     <hr />
                     <Tracklist 
                         tracks={playlistItems}
+                        attributes={playlistAttributes}
+                        attributeType={attributeType}
                     />
                 </div>
             )
@@ -76,6 +96,7 @@ function Playlists() {
         if (selectedPlaylist) {
             return (<PlaylistAnalysis
                         trackList={playlistItems}
+                        playlistAttributes={playlistAttributes}
                     />)
         } else {
             return ( <h1 className='analysisPlaceholder'>Select a Playlist to Analyze...</h1> )
@@ -84,6 +105,9 @@ function Playlists() {
 
     return(
         <div className='playlists-page'>
+            <div className='attributeBar'>
+                <TrackAnalysis onAttributeTypeChange={handleAttributeTypeChange} toggledButton={attributeType} />
+            </div>
             <User title="Your Playlists"/>
             {renderPlaylists()}
             {renderAnalysis()}
