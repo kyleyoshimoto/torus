@@ -17,6 +17,8 @@ function Track(props) {
             };
             queueUris.unshift(uri);
             dispatch(playSong(queueUris));
+        } else {
+            dispatch(playSong(uri));
         }
     };
 

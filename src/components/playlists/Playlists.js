@@ -12,6 +12,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 function Playlists() {
     const [selectedPlaylist, selectPlaylist] = useState(null);
+    const [selectedPlaylistName, selectPlaylistName] = useState(null);
     const dispatch = useDispatch();
     const playlists = useSelector(selectPlaylists);
     const playlistItems = useSelector(selectPlaylistItems);
@@ -21,9 +22,11 @@ function Playlists() {
     }, []);
 
     const onSelection = useCallback(
-        (id) => {
+        (id, name) => {
             selectPlaylist(id);
-            dispatch(getPlaylistItems);
+            selectPlaylistName(name);
+            dispatch(getPlaylistItems(id));
+            console.log("Dispatching getPlaylistItems...");
         }, [selectedPlaylist]
     );
 
@@ -36,13 +39,14 @@ function Playlists() {
     const renderPlaylists = () => {
         if (selectedPlaylist) {
             return (
-                <div className='playlists-list'>
+                <div className='playlist-list'>
                     <header>
-                        <h2>{selectedPlaylist.name}</h2>
+                        <h2>{selectedPlaylistName}</h2>
                         <CloseIcon onClick={onExit}/>
                     </header>
                     <hr />
                     <Tracklist 
+                        tracks={playlistItems}
                     />
                 </div>
             )
@@ -68,11 +72,21 @@ function Playlists() {
         }
     }
 
+    const renderAnalysis = () => {
+        if (selectedPlaylist) {
+            return (<PlaylistAnalysis
+                        trackList={playlistItems}
+                    />)
+        } else {
+            return ( <h1 className='analysisPlaceholder'>Select a Playlist to Analyze...</h1> )
+        }
+    }
+
     return(
         <div className='playlists-page'>
             <User title="Your Playlists"/>
             {renderPlaylists()}
-            <PlaylistAnalysis />
+            {renderAnalysis()}
         </div>
     )
 }

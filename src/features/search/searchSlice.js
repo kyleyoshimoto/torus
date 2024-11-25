@@ -16,7 +16,7 @@ export const getSearch = createAsyncThunk(
             });
 
             if (!response.ok) {
-                throw new Error('Failed to fetch search results');
+                throw new Error('Failed to fetch search results.');
             }
 
             const jsonResponse = await response.json();
@@ -122,6 +122,43 @@ export const getAttribute = createAsyncThunk(
     }
 );
 
+export const getPlaylistItems = createAsyncThunk(
+    'playlistItems/getPlaylistItems',
+    async(playlist_id) => {
+        try {
+            const accessToken = Spotify.getAccessToken();
+            
+            console.log(playlist_id);
+
+            const response = await fetch(`https://api.spotify.com/v1/playlists/${playlist_id}/tracks`, {
+                method: 'GET',
+                headers: { Authorization: `Bearer ${accessToken}`}
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch playlist items.');
+            }
+
+            const jsonResponse = await response.json();
+
+            console.log("Retrieving playlist items...");
+
+            return jsonResponse.items.map(item => ({
+                name: item.track.name,
+                uri: item.track.uri,
+                artist: item.track.artists.map(artist => artist.name).join(", "),
+                album: {
+                    name: item.track.album.name,
+                    cover: track.album.images[0]?.url
+                }
+            }))
+        } catch (error) {
+            console.error(`Error getting playlist items:`, error);
+            throw error;
+        }
+    }
+);
+
 export const searchSlice = createSlice({
     name: 'search',
     initialState: {
@@ -134,6 +171,9 @@ export const searchSlice = createSlice({
         attribute: {},
         loadingAttribute: false,
         errorAttribute: null,
+        playlistItems: {},
+        loadingPlaylistItems: false,
+        errorPlaylistItems: null
     },
     extraReducers: {
         [getSearch.pending]: (state) => {
@@ -174,7 +214,20 @@ export const searchSlice = createSlice({
             state.loadingAttribute = false;
             state.errorAttribute = null;
             state.attribute = action.payload;
-        }
+        },
+        [getPlaylistItems.pending]: (state) => {
+            state.loadingPlaylistItems = true;
+            state.errorPlaylistItems = null;
+        },
+        [getPlaylistItems.rejected]: (state,action) => {
+            state.loadingPlaylistItems = false;
+            state.errorPlaylistItems = action.error.message
+        },
+        [getPlaylistItems.fulfilled]: (state, action) => {
+            state.loadingPlaylistItems = false;
+            state.errorPlaylistItems = null;
+            state.playlistItems = action.payload;
+        },
     }
 });
 

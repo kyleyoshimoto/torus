@@ -8,10 +8,19 @@
 .playlist-list {
     position: absolute;
     border: solid rgb(55, 55, 55);
-    top: 27vh;
+    top: 16vh;
     margin: 3vh;
     width: 40%;
-    min-height: 25vh;
+    height: 80vh;
     background: black;
     border-radius: 10px;
+    overflow: scroll;
+}
+
+
+.analysisPlaceholder {
+    position: absolute;
+    right: 5vw;
+    top: 5vh;
+    font-size: 50px;
 }
