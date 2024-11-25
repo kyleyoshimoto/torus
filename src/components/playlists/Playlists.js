@@ -9,21 +9,37 @@ import Tracklist from '../tracklist/Tracklist';
 
 import './Playlists.css';
 import CloseIcon from '@mui/icons-material/Close';
+import { getAttributes, selectAttributes } from '../../features/search/searchSlice';
+import TrackAnalysis from '../search/TrackAnalysis';
 
 function Playlists() {
     const [selectedPlaylist, selectPlaylist] = useState(null);
+    const [selectedPlaylistName, selectPlaylistName] = useState(null);
+    const [attributeType, setAttributeType] = useState("danceability");
     const dispatch = useDispatch();
     const playlists = useSelector(selectPlaylists);
     const playlistItems = useSelector(selectPlaylistItems);
+    const playlistAttributes = useSelector(selectAttributes);
 
     useEffect(() => {
         dispatch(getUserPlaylists());
+        console.log("Dispatching getUserPlaylists");
     }, []);
 
+    useEffect(() => {
+        if (playlistItems && playlistItems.length > 0) {
+            const playlistIds = playlistItems.map(item => item.id).join(",");
+            dispatch(getAttributes(playlistIds));
+            console.log("Dispatching getAttributes...");
+        }
+    }, [dispatch, playlistItems]);
+
     const onSelection = useCallback(
-        (id) => {
+        (id, name) => {
             selectPlaylist(id);
-            dispatch(getPlaylistItems);
+            selectPlaylistName(name);
+            dispatch(getPlaylistItems(id));
+            console.log("Dispatching getPlaylistItems...");
         }, [selectedPlaylist]
     );
 
@@ -33,16 +49,24 @@ function Playlists() {
         }, [selectPlaylists]
     );
 
+    const handleAttributeTypeChange = useCallback((type) => {
+        setAttributeType(type);
+        console.log("Handle attribute type change:" , type);
+    })
+
     const renderPlaylists = () => {
         if (selectedPlaylist) {
             return (
-                <div className='playlists-list'>
+                <div className='playlist-list'>
                     <header>
-                        <h2>{selectedPlaylist.name}</h2>
+                        <h2>{selectedPlaylistName}</h2>
                         <CloseIcon onClick={onExit}/>
                     </header>
                     <hr />
                     <Tracklist 
+                        tracks={playlistItems}
+                        attributes={playlistAttributes}
+                        attributeType={attributeType}
                     />
                 </div>
             )
@@ -68,11 +92,25 @@ function Playlists() {
         }
     }
 
+    const renderAnalysis = () => {
+        if (selectedPlaylist) {
+            return (<PlaylistAnalysis
+                        trackList={playlistItems}
+                        playlistAttributes={playlistAttributes}
+                    />)
+        } else {
+            return ( <h1 className='analysisPlaceholder'>Select a Playlist to Analyze...</h1> )
+        }
+    }
+
     return(
         <div className='playlists-page'>
+            <div className='attributeBar'>
+                <TrackAnalysis onAttributeTypeChange={handleAttributeTypeChange} toggledButton={attributeType} />
+            </div>
             <User title="Your Playlists"/>
             {renderPlaylists()}
-            <PlaylistAnalysis />
+            {renderAnalysis()}
         </div>
     )
 }

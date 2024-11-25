@@ -62,6 +62,7 @@ export const getPlaylistItems = createAsyncThunk(
     'spotifyProfile/getPlaylistItems',
     async (id) => {
         try {
+            console.log("Retrieving playlist items...");
             const accessToken = Spotify.getAccessToken();
             const response = await fetch(`https://api.spotify.com/v1/playlists/${id}/tracks`, {
                 headers: { Authorization: `Bearer ${accessToken}` }
@@ -72,6 +73,9 @@ export const getPlaylistItems = createAsyncThunk(
             }
 
             const jsonResponse = await response.json();
+
+            console.log("Successfully obtained playlistItems:");
+            console.log(jsonResponse);
 
             return jsonResponse.items.map(item => ({
                 name: item.track.name,
@@ -85,7 +89,7 @@ export const getPlaylistItems = createAsyncThunk(
             }));
 
         } catch (error) {
-            console.error('Error getting recently played', error);
+            console.error(`Error retrieving playlist items:`, error);
             throw error;
         }
     }

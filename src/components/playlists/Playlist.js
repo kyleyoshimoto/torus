@@ -9,6 +9,7 @@ function Playlist(props) {
 
     const handleSelection = useCallback(() => {
         onSelection(id);
+        onSelection(name);
     })
 
     const handlePlayPlaylist = () => {

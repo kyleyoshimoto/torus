@@ -17,8 +17,14 @@ function Track(props) {
             };
             queueUris.unshift(uri);
             dispatch(playSong(queueUris));
+        } else {
+            dispatch(playSong(uri));
         }
     };
+
+    const handleAddSong = () => {
+        dispatch()
+    }
 
     if (attributeType) {
         return (
@@ -33,7 +39,7 @@ function Track(props) {
                 <p className='attribute-t'>{attributeType ? attributeType.toUpperCase() : ""}</p>
                 <p className='attribute-value'>{attributes[attributeType]}</p>
             </div>
-            <PlaylistAddIcon className='icon' fontSize='large'/>
+            <PlaylistAddIcon className='icon' fontSize='large' onClick={handleAddSong}/>
         </div>
         )
     }
