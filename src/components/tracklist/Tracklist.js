@@ -53,7 +53,6 @@ function Tracklist(props) {
                     />
                 )
             })}
-            <p>tracklist</p>
         </div>
     )
 }

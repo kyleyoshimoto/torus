@@ -111,6 +111,7 @@ function Search() {
             <MakePlaylist 
                 tempPlaylist={tempPlaylist}
                 attributeType={attributeType}
+                attributes={attributes}
             />
         </div>
     );

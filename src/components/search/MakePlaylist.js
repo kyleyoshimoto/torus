@@ -1,18 +1,18 @@
 import React, { useState, useCallback } from 'react';
-import SearchPlaylist from './SearchPlaylist';
+//import SearchPlaylist from './SearchPlaylist';
 import './MakePlaylist.css';
 import { useDispatch, useSelector } from 'react-redux';
 import Tracklist from '../tracklist/Tracklist';
-import { selectAttributes } from '../../features/search/searchSlice';
 import { savePlaylist } from '../../features/playlist/playlistSlice';
 
 function MakePlaylist(props) {
     const dispatch = useDispatch();
-    const { tempPlaylist, attributeType } = props;
-    const attributes = useSelector(selectAttributes);
+    const { tempPlaylist, attributes, attributeType } = props;
     
     // State to store the playlist title
     const [playlistTitle, setPlaylistTitle] = useState("");
+
+    console.log("MAKE PLAYLIST ATTRIBUTES:", attributes);
 
     // Handle input changes to update playlistTitle state
     const handleTitleChange = useCallback((event) => {
@@ -55,7 +55,7 @@ function MakePlaylist(props) {
                     attributeType={attributeType}
                 />
             </div>
-            <SearchPlaylist />
+            {/* <SearchPlaylist />*/}
         </div>
     );
 }

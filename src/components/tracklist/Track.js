@@ -47,8 +47,7 @@ function Track(props) {
             album: {
                 name: album,
                 cover: cover
-            },
-            attributes: attributes
+            }
         };
         
         // Call the passed handleAddSong function to add the track to the playlist
@@ -68,7 +67,7 @@ function Track(props) {
             </div>
 
             {/* Conditionally render track attributes if attributeType is provided */}
-            {attributeType && (
+            {attributeType && attributes[attributeType] && (
                 <div className='track-attributes'>
                     <p className='attribute-t'>{attributeType ? attributeType.toUpperCase() : ""}</p>
                     <p className='attribute-value'>{attributes[attributeType] || 'N/A'}</p>
@@ -76,7 +75,12 @@ function Track(props) {
             )}
 
             {/* Playlist Add Icon: Click to add the track to the temporary playlist */}
-            <PlaylistAddIcon className='icon' fontSize='large' onClick={clickAddSong} />
+            <PlaylistAddIcon 
+                className='icon' 
+                fontSize='large' 
+                onClick={clickAddSong} 
+                style={{ justifySelf: 'flex-end' }} // For grid layout
+            />
         </div>
     );
 };
