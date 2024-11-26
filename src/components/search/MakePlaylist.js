@@ -35,8 +35,9 @@ function MakePlaylist(props) {
         <div className='make-playlist'>
             <div className='playlist-title'>
                 <input 
+                    className='enter-title'
                     type="text"
-                    placeholder='Enter Playlist Title'
+                    placeholder='  Enter Playlist Title...'
                     value={playlistTitle} // Bind the input value to playlistTitle
                     onChange={handleTitleChange} // Call handleTitleChange on input change
                 />
