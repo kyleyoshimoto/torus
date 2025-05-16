@@ -2,7 +2,7 @@
 
 ![Application Preview](src/Screenshots/JimiSC.png)
 
-**_NOTE:_** This project is still under development and not yet ready for deployment.
+**_NOTE:_** Spotify depreciated API endpoints for acquiring Track data and the app is only half functional now :( (Hence, it is no longer deployed)
 
 - A React Redux application that consumes data from the Spotify API:
   - Users can:
