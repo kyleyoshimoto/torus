@@ -7,9 +7,42 @@
 }
 
 .make-playlist > .playlist {
-    min-height: 44vh;
+    min-height: 80vh;
     background: black;
     border-radius: 10px;
     overflow: hidden;
     border: rgb(54, 54, 54) solid;
+}
+
+.make-playlist > .playlist-title {
+    display: flex;
+}
+
+.enter-title {
+    background: rgba(0, 0, 0, 0.862);
+    border: white solid 3px;
+    font-size: 2rem;
+    width: 28vw;
+    border-radius: 30px;
+}
+
+.playlist-save {
+    background: maroon; /* Set the background to maroon */
+    border: white 3px solid;
+    border-radius: 10px;
+    font-size: 2rem;
+    width: 20vw;
+    color: white; /* Ensures text is visible */
+    padding: 10px; /* Adds padding for better click area */
+    cursor: pointer; /* Shows a pointer cursor on hover */
+    transition: background 0.3s ease, transform 0.1s ease; /* Smooth transitions */
+}
+
+.playlist-save:hover {
+    background: #550000; /* Darker maroon background on hover */
+}
+
+.playlist-save:active {
+    transform: scale(0.98); /* Slightly shrink on click */
+    background: #550000; /* Even darker maroon background when clicked */
 }

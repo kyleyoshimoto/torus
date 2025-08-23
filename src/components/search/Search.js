@@ -21,6 +21,8 @@ function Search() {
     // State to manage the selected attribute type for track analysis (e.g., "danceability")
     const [attributeType, setAttributeType] = useState("danceability");
 
+    const [tempPlaylist, setTempPlaylist] = useState([]);
+
     // Function to handle input change events in the search bar
     const handleInputChange = useCallback((event) => {
         console.log("KEY PRESSED:", event.key);
@@ -67,6 +69,11 @@ function Search() {
         console.log("HANGLE ATTRIBUTE TYPE CHANGE:", type);
     }, []);
 
+    const handleAddSong = useCallback((trackObject) => {
+        // Add the new trackObject to the tempPlaylist
+        setTempPlaylist((prevPlaylist) => [...prevPlaylist, trackObject]);
+      }, []); // Dependency array: empty array means this callback function will not change unless explicitly needed
+
     // Render the Search component layout, including search bar, track analysis, and search results
     return (
         <div className='search-page'>
@@ -83,7 +90,10 @@ function Search() {
             </div>
             
             {/* TrackAnalysis component for selecting track attribute types */}
-            <TrackAnalysis onAttributeTypeChange={handleAttributeTypeChange} toggledButton={attributeType} />
+            <TrackAnalysis 
+                onAttributeTypeChange={handleAttributeTypeChange} 
+                toggledButton={attributeType} 
+            />
 
             {/* Display search results and tracklist */}
             <div className="search-results">
@@ -93,11 +103,16 @@ function Search() {
                     tracks={searchResults}
                     attributes={attributes}
                     attributeType={attributeType}
+                    handleAddSong={handleAddSong}
                 />
             </div>
 
             {/* MakePlaylist component for creating playlists */}
-            <MakePlaylist />
+            <MakePlaylist 
+                tempPlaylist={tempPlaylist}
+                attributeType={attributeType}
+                attributes={attributes}
+            />
         </div>
     );
 };

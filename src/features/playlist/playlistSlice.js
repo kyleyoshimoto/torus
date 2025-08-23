@@ -30,6 +30,8 @@ export const savePlaylist = createAsyncThunk(
                 body: JSON.stringify({ uris: trackUris }),
             });
 
+            console.log("Successfully saved playlist:", name);
+
             return { name, trackUris }; // Return useful data for the fulfilled case
         } catch (error) {
             console.error("Error saving playlist:", error);
@@ -43,6 +45,8 @@ const initialState = {
     status: 'idle', // Status of the async operation
     error: null,   // Error message if any
 };
+
+
 
 const playlistSlice = createSlice({
     name: 'playlist',

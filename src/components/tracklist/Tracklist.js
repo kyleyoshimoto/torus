@@ -3,7 +3,7 @@ import './Tracklist.css';
 import Track from './Track';
 
 function Tracklist(props) {
-    const { tracks, list, attributeType, attributes } = props;
+    const { tracks, list, attributeType, attributes, handleAddSong } = props;
 
     console.log("ATTRIBUTES:",attributes)
     console.log("TRACK IDS",tracks)
@@ -27,6 +27,7 @@ function Tracklist(props) {
                                 cover={track.album.cover}
                                 attributeType={attributeType}
                                 attributes={attributes?.[track.id] || ""}
+                                handleAddSong={handleAddSong}
                             />
                         </li>
                     )
@@ -48,10 +49,10 @@ function Tracklist(props) {
                         cover={track.album.cover}
                         attributeType={attributeType}
                         attributes={attributes?.[track.id] || ""}
+                        handleAddSong={handleAddSong}
                     />
                 )
             })}
-            <p>tracklist</p>
         </div>
     )
 }
